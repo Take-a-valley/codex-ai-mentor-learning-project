@@ -1,0 +1,52 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# JavaScript / Node.js
+node_modules/
+dist/
+build/
+coverage/
+
+# Frontend frameworks
+.next/
+out/
+
+# Java / JVM build outputs
+target/
+.gradle/
+*.class
+*.jar
+*.war
+*.ear
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Temporary files
+.tmp/
+temp/
+.cache/
+
+# Local AI/work files
+.local/
