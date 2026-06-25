@@ -261,3 +261,85 @@
 - 基本設計書の残修正反映を確認する
 - 問題なければ基本設計フェーズを完了扱いにする
 - 詳細設計フェーズで作成する設計書の順序と粒度を整理する
+
+---
+
+## 2026-06-19 終了報告
+
+### 作業内容
+
+- `technology_selection_decision.md` が削除済みであることを前提に、参照残りがないか確認した
+- 技術選定・採用事項が各設計書へ反映されているかを横断レビューした
+- `technical_decision_design.md`、基本設計書、コンテキストファイルの未決事項に古い情報が残っていないか確認した
+- `docs/context/current_tasks.md` を更新した
+
+### 確認結果
+
+- `technology_selection_decision.md` への参照は残っていない
+- `technical_decision_design.md` の採用技術一覧には、今回の採用事項が概ね反映されている
+- 画面設計書のプロジェクト編集画面には、プロジェクト削除操作が追記済み
+- 一部ドキュメントでは、採用済み技術が未決事項として残っている
+
+### 残修正候補
+
+- `technical_decision_design.md` のUIライブラリ方針を、Tailwind CSS基本採用、必要に応じてshadcn/ui採用に統一する
+- `basic_design.md` と `requirements.md` の未決事項から、決定済みの技術項目を削除する
+- `api_design.md` の未決事項から、決定済みのCSRF方式とセッション有効期限を削除する
+- `backend_design.md` の使用技術表を、採用済みバージョンと周辺技術に具体化する
+- `technology_stack.md` と `open_questions.md` の古い未決情報を必要に応じて更新する
+
+### 次回タスク
+
+- 上記の残修正が設計書へ反映されているかレビューする
+- 問題なければ、詳細設計の次ドキュメント作成へ進む
+
+---
+
+## 2026-06-26 終了報告
+
+### 作業内容
+
+- 詳細設計フェーズの作業状況を復元した
+- 採用済み技術が未決事項に残っていた箇所の修正反映を確認した
+- `backend_structure_design.md` の作成内容をレビューした
+- `entity_design.md` の作成内容をレビューした
+- `dto_design.md` の作成内容をレビューした
+- `repository_design.md` の作成内容をレビューした
+- 次に作成する設計書候補を整理した
+- `docs/context/current_tasks.md` を更新した
+
+### 現在の状況
+
+- 詳細設計書は `docs/architecture/Task management function/Detail design/` に作成中
+- 作成済み詳細設計書は以下
+  - `technical_decision_design.md`
+  - `backend_structure_design.md`
+  - `entity_design.md`
+  - `dto_design.md`
+  - `repository_design.md`
+- `backend_structure_design.md`、`entity_design.md`、`dto_design.md` は大きな問題なし
+- `repository_design.md` は大きな問題なしだが、実装時の詰まり防止として軽微な補足候補あり
+
+### Repository設計書の残修正候補
+
+- 論理削除済みユーザーと同じemailで再登録を許可するかを補足する
+- 論理削除済みProjectMemberの再招待・再参加時の復元方針を補足する
+- Projectが論理削除済みの場合は配下データを通常操作対象外とする方針を補足する
+- 同一プロジェクト・同一メールのPENDING招待確認を追加する
+- ユーザーのACTIVEパスワードリセットトークン取得を追加する
+
+### 残っている主な詳細設計書
+
+- `service_design.md`
+- `controller_design.md`
+- `exception_design.md`
+- `security_design.md` または `authentication_authorization_detail_design.md`
+- `flyway_migration_design.md`
+- `docker_compose_design.md`
+- `frontend_structure_design.md`
+- `frontend_state_design.md`
+
+### 次回タスク
+
+- `repository_design.md` の軽微な補足修正が反映されているかレビューする
+- 問題なければ `service_design.md` の作成へ進む
