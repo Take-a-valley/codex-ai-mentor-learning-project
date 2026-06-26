@@ -5,6 +5,7 @@
 - タスク管理機能の設計書は `docs/architecture/Task management function/` 配下で管理する
 - 基本設計書は `docs/architecture/Task management function/Basic design/` に集約済み
 - 詳細設計書は今後 `docs/architecture/Task management function/Detail design/` に作成する
+- ワイヤーフレームHTMLは `docs/architecture/Task management function/screen design/Task management function/wireframe.html` に配置済み
 - 要件定義書、基本設計書、DB設計書、API設計書、画面設計書、認証・認可設計書、フロントエンド設計書、バックエンド設計書、テスト方針書は作成済み
 - 基本設計書一式の横断レビューでは大きな問題なし
 - API設計書の認可表タイポは修正済み
@@ -70,6 +71,7 @@
 - 添付ファイル取得APIのみファイルデータを返す
 - タスク作成・編集はモーダルで行う
 - カンバン画面のドラッグアンドドロップによるStatus変更を初期MVPに含める
+- ワイヤーフレームはHTML形式で作成し、主要画面を1ページで確認できる構成とする
 
 ## 決定事項
 
@@ -90,13 +92,14 @@
 - 管理者が0人になる操作は禁止
 - 主要データの削除は論理削除とする
 - API認証方式はセッション方式とする
+- タスク管理機能の画面デザイン案はワイヤーフレームHTMLとして管理する
 
 ## 未決事項
 
-- 詳細設計で作成する設計書の順序
-- 詳細設計の粒度
 - パッケージ構成
 - DTO / Entity / 例外クラスの詳細
 - セッションCookieの詳細設定
 - 招待情報の期限切れ後の自動更新方針
 - パスワードリセット情報の期限切れ後の自動更新方針
+- ワイヤーフレームを実装前にレビューして修正するか
+- 次に作成する詳細設計書を `frontend_api_client_design.md`、`test_case_design.md`、または別設計書のどれにするか

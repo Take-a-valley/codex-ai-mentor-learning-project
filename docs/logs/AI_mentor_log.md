@@ -343,3 +343,41 @@
 
 - `repository_design.md` の軽微な補足修正が反映されているかレビューする
 - 問題なければ `service_design.md` の作成へ進む
+
+---
+
+## 2026-06-27 終了報告
+
+### 作業内容
+
+- `frontend_state_design.md` の作成内容をレビューした
+- TanStack Query、`useState`、`useReducer` について学習整理を行った
+- これまで解説した用語を `docs/context/glossary.md` に追記した
+- 今後、解説希望の用語や学習上重要な用語を `glossary.md` に追記する運用ルールを `learning_notes.md` と `current_tasks.md` に追加した
+- タスク管理機能のワイヤーフレームHTML案を提示した
+- ユーザーにより、ワイヤーフレームHTMLが `docs/architecture/Task management function/screen design/Task management function/wireframe.html` に移動されたことを確認した
+- `docs/context/current_tasks.md` と `docs/context/architecture_summary.md` を更新した
+
+### 現在の状況
+
+- 詳細設計書は `docs/architecture/Task management function/Detail design/` に作成中
+- 以下の詳細設計書は作成・レビュー済み
+  - `technical_decision_design.md`
+  - `backend_structure_design.md`
+  - `entity_design.md`
+  - `dto_design.md`
+  - `repository_design.md`
+  - `service_design.md`
+  - `controller_design.md`
+  - `exception_design.md`
+  - `security_design.md`
+  - `flyway_migration_design.md`
+  - `docker_compose_design.md`
+  - `frontend_structure_design.md`
+  - `frontend_state_design.md`
+- ワイヤーフレームHTMLは配置済み
+
+### 次回タスク
+
+- ワイヤーフレームHTMLをレビューし、画面設計・フロントエンド設計との整合を確認する
+- 問題なければ、次の詳細設計として `frontend_api_client_design.md` または `test_case_design.md` の作成へ進む

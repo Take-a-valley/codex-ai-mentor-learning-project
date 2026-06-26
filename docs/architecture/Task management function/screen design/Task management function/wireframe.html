@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Task Management Function Wireframe</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Hiragino Sans", "Yu Gothic", sans-serif;
+      background: #f5f7fa;
+      color: #1f2937;
+    }
+
+    header {
+      height: 56px;
+      background: #ffffff;
+      border-bottom: 1px solid #d8dee8;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+    }
+
+    .app-name {
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .user-area {
+      font-size: 13px;
+      color: #4b5563;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      min-height: calc(100vh - 56px);
+    }
+
+    aside {
+      background: #ffffff;
+      border-right: 1px solid #d8dee8;
+      padding: 20px 14px;
+    }
+
+    aside h2 {
+      font-size: 13px;
+      margin: 0 0 12px;
+      color: #6b7280;
+    }
+
+    .nav-item {
+      padding: 10px 12px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      font-size: 14px;
+    }
+
+    main {
+      padding: 28px;
+    }
+
+    .page {
+      background: #ffffff;
+      border: 1px solid #d8dee8;
+      border-radius: 8px;
+      margin-bottom: 32px;
+      overflow: hidden;
+    }
+
+    .page-header {
+      padding: 18px 22px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .page-title {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+    }
+
+    .button {
+      height: 34px;
+      padding: 0 12px;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .button.primary {
+      background: #2563eb;
+      color: #ffffff;
+      border-color: #2563eb;
+    }
+
+    .button.danger {
+      color: #b91c1c;
+      border-color: #fecaca;
+      background: #fff7f7;
+    }
+
+    .content {
+      padding: 22px;
+    }
+
+    .form {
+      max-width: 520px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      color: #4b5563;
+      margin-bottom: 6px;
+    }
+
+    .input,
+    .textarea,
+    .select {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 10px;
+      background: #ffffff;
+      min-height: 38px;
+    }
+
+    .textarea {
+      min-height: 88px;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .table th,
+    .table td {
+      border-bottom: 1px solid #e5e7eb;
+      padding: 12px;
+      text-align: left;
+    }
+
+    .table th {
+      color: #6b7280;
+      font-weight: 600;
+      background: #f8fafc;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 0 8px;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: #3730a3;
+      font-size: 12px;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(180px, 1fr));
+      gap: 14px;
+      overflow-x: auto;
+    }
+
+    .column {
+      background: #f8fafc;
+      border: 1px solid #d8dee8;
+      border-radius: 8px;
+      min-height: 420px;
+      padding: 12px;
+    }
+
+    .column-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .task-card {
+      background: #ffffff;
+      border: 1px solid #d8dee8;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+
+    .task-title {
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .task-meta {
+      display: grid;
+      gap: 5px;
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 20px;
+    }
+
+    .panel {
+      border: 1px solid #d8dee8;
+      border-radius: 8px;
+      padding: 16px;
+      background: #ffffff;
+    }
+
+    .panel h3 {
+      margin: 0 0 14px;
+      font-size: 15px;
+    }
+
+    .comment {
+      border-bottom: 1px solid #e5e7eb;
+      padding: 12px 0;
+    }
+
+    .comment:first-of-type {
+      padding-top: 0;
+    }
+
+    .modal-backdrop {
+      border: 2px dashed #94a3b8;
+      border-radius: 8px;
+      padding: 18px;
+      background: #f8fafc;
+    }
+
+    .modal {
+      max-width: 560px;
+      margin: 0 auto;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .modal-header,
+    .modal-footer {
+      padding: 14px 18px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-footer {
+      border-top: 1px solid #e5e7eb;
+      border-bottom: 0;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .modal-body {
+      padding: 18px;
+    }
+
+    .login-shell {
+      max-width: 420px;
+      margin: 32px auto;
+      border: 1px solid #d8dee8;
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 24px;
+    }
+
+    .note {
+      font-size: 13px;
+      color: #6b7280;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="app-name">Development Support App</div>
+    <div class="user-area">山田太郎 / SYSTEM_ADMIN / ログアウト</div>
+  </header>
+
+  <div class="layout">
+    <aside>
+      <h2>Navigation</h2>
+      <div class="nav-item">プロジェクト一覧</div>
+      <div class="nav-item">カンバン</div>
+      <div class="nav-item">メンバー管理</div>
+      <div class="nav-item">プロジェクト設定</div>
+    </aside>
+
+    <main>
+      <section class="page">
+        <div class="page-header">
+          <h1 class="page-title">SCR-001 ログイン画面</h1>
+        </div>
+        <div class="content">
+          <div class="login-shell">
+            <div class="form">
+              <div class="field">
+                <label>メールアドレス</label>
+                <div class="input">user@example.com</div>
+              </div>
+              <div class="field">
+                <label>パスワード</label>
+                <div class="input">********</div>
+              </div>
+              <div class="button primary">ログイン</div>
+              <div class="note">パスワードを忘れた場合</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page">
+        <div class="page-header">
+          <h1 class="page-title">SCR-004 プロジェクト一覧画面</h1>
+          <div class="toolbar">
+            <div class="button primary">プロジェクト作成</div>
+          </div>
+        </div>
+        <div class="content">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>プロジェクト名</th>
+                <th>説明</th>
+                <th>自分のロール</th>
+                <th>更新日時</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Task Management App</td>
+                <td>初期MVPのタスク管理機能</td>
+                <td><span class="badge">PROJECT_ADMIN</span></td>
+                <td>2026-06-27</td>
+                <td>開く / 編集</td>
+              </tr>
+              <tr>
+                <td>Internal Tool</td>
+                <td>社内開発支援</td>
+                <td><span class="badge">MEMBER</span></td>
+                <td>2026-06-20</td>
+                <td>開く</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="page">
+        <div class="page-header">
+          <h1 class="page-title">SCR-005 プロジェクト作成画面</h1>
+        </div>
+        <div class="content">
+          <div class="form">
+            <div class="field">
+              <label>プロジェクト名</label>
+              <div class="input">Task Management App</div>
+            </div>
+            <div class="field">
+              <label>プロジェクト説明</label>
+              <div class="textarea">開発支援アプリケーションの初期MVP</div>
+            </div>
+            <div class="toolbar">
+              <div class="button primary">作成</div>
+              <div class="button">キャンセル</div>
+            </div>
+            <div class="note">SYSTEM_ADMINのみ表示する画面</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page">
+        <div class="page-header">
+          <h1 class="page-title">SCR-007 カンバン画面</h1>
+          <div class="toolbar">
+            <div class="button">メンバー管理</div>
+            <div class="button">プロジェクト編集</div>
+            <div class="button primary">タスク作成</div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="board">
+            <div class="column">
+              <div class="column-title">ToDo <span>2</span></div>
+              <div class="task-card">
+                <div class="task-title">ログイン画面を作成する</div>
+                <div class="task-meta">
+                  <div>Priority: HIGH</div>
+                  <div>Assignee: 山田太郎</div>
+                  <div>Due: 2026-07-01</div>
+                </div>
+              </div>
+              <div class="task-card">
+                <div class="task-title">DBマイグレーションを確認する</div>
+                <div class="task-meta">
+                  <div>Priority: MEDIUM</div>
+                  <div>Assignee: 佐藤花子</div>
+                  <div>Due: 2026-07-03</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="column">
+              <div class="column-title">In Progress <span>1</span></div>
+              <div class="task-card">
+                <div class="task-title">カンバンUIを実装する</div>
+                <div class="task-meta">
+                  <div>Priority: HIGHEST</div>
+                  <div>Assignee: 山田太郎</div>
+                  <div>Due: 2026-07-05</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="column">
+              <div class="column-title">Review <span>1</span></div>
+              <div class="task-card">
+                <div class="task-title">API設計をレビューする</div>
+                <div class="task-meta">
+                  <div>Priority: HIGH</div>
+                  <div>Assignee: 田中一郎</div>
+                  <div>Due: 2026-07-06</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="column">
+              <div class="column-title">Done <span>0</span></div>
+              <div class="note">完了タスクはありません</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page">
+        <div class="page-header">
+          <h1 class="page-title">タスク作成・編集モーダル</h1>
+        </div>
+        <div class="content">
+          <div class="modal-backdrop">
+            <div class="modal">
+              <div class="modal-header">
+                <strong>タスク編集</strong>
+                <span>閉じる</span>
+              </div>
+              <div class="modal-body">
+                <div class="form">
+                  <div class="field">
+                    <label>Summary</label>
+                    <div class="input">カンバンUIを実装する</div>
+                  </div>
+                  <div class="field">
+                    <label>Description</label>
+                    <div class="textarea">Status列、タスクカード、ドラッグアンドドロップを実装する。</div>
+                  </div>
+                  <div class="field">
+                    <label>Status</label>
+                    <div class="select">IN_PROGRESS</div>
+                  </div>
+                  <div class="field">
+                    <label>Priority</label>
+                    <div class="select">HIGHEST</div>
+                  </div>
+                  <div class="field">
+                    <label>Assignee</label>
+                    <div class="select">山田太郎</div>
+                  </div>
+                  <div class="field">
+                    <label>Due Date</label>
+                    <div class="input">2026-07-05</div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <div class="button">キャンセル</div>
+                <div class="button primary">保存</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page">
+        <div class="page-header">
+          <h1 class="page-title">SCR-008 タスク詳細画面</h1>
+          <div class="toolbar">
+            <div class="button">編集</div>
+            <div class="button danger">削除</div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="detail-grid">
+            <div class="panel">
+              <h3>タスク情報</h3>
+              <table class="table">
+                <tbody>
+                  <tr><th>Summary</th><td>カンバンUIを実装する</td></tr>
+                  <tr><th>Description</th><td>Status列、タスクカード、ドラッグアンドドロップを実装する。</td></tr>
+                  <tr><th>Status</th><td>IN_PROGRESS</td></tr>
+                  <tr><th>Priority</th><td>HIGHEST</td></tr>
+                  <tr><th>Assignee</th><td>山田太郎</td></tr>
+                  <tr><th>Creator</th><td>佐藤花子</td></tr>
+                  <tr><th>Due Date</th><td>2026-07-05</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="panel">
+              <h3>添付ファイル</h3>
+              <table class="table">
+                <tbody>
+                  <tr><td>wireframe.pdf</td><td>Download / Delete</td></tr>
+                  <tr><td>memo.txt</td><td>Download</td></tr>
+                </tbody>
+              </table>
+              <div class="button">添付追加</div>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top: 20px;">
+            <h3>コメント</h3>
+            <div class="comment">
+              <strong>山田太郎</strong>
+              <p>ドラッグアンドドロップはStatus変更のみ対象にします。</p>
+              <div class="note">編集 / 削除</div>
+            </div>
+            <div class="comment">
+              <strong>削除済ユーザー</strong>
+              <p>過去コメントは履歴として表示します。</p>
+            </div>
+            <div class="field" style="margin-top: 14px;">
+              <label>コメント入力</label>
+              <div class="textarea"></div>
+            </div>
+            <div class="button primary">コメント投稿</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page">
+        <div class="page-header">
+          <h1 class="page-title">SCR-009 メンバー管理画面</h1>
+          <div class="toolbar">
+            <div class="button primary">メンバー招待</div>
+          </div>
+        </div>
+        <div class="content">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>表示名</th>
+                <th>メールアドレス</th>
+                <th>ロール</th>
+                <th>参加日時</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>山田太郎</td>
+                <td>yamada@example.com</td>
+                <td><span class="badge">PROJECT_ADMIN</span></td>
+                <td>2026-06-01</td>
+                <td>ロール変更 / 削除</td>
+              </tr>
+              <tr>
+                <td>佐藤花子</td>
+                <td>sato@example.com</td>
+                <td><span class="badge">MEMBER</span></td>
+                <td>2026-06-05</td>
+                <td>ロール変更 / 削除</td>
+              </tr>
+              <tr>
+                <td>田中一郎</td>
+                <td>tanaka@example.com</td>
+                <td><span class="badge">VIEWER</span></td>
+                <td>2026-06-10</td>
+                <td>ロール変更 / 削除</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="note">PROJECT_ADMINが0人になる操作は不可</div>
+        </div>
+      </section>
+
+      <section class="page">
+        <div class="page-header">
+          <h1 class="page-title">SCR-010 メンバー招待画面</h1>
+        </div>
+        <div class="content">
+          <div class="form">
+            <div class="field">
+              <label>招待先メールアドレス</label>
+              <div class="input">new-member@example.com</div>
+            </div>
+            <div class="note">初期ロールはMEMBER固定</div>
+            <div class="toolbar">
+              <div class="button primary">招待送信</div>
+              <div class="button">キャンセル</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page">
+        <div class="page-header">
+          <h1 class="page-title">SCR-011 招待参加画面</h1>
+        </div>
+        <div class="content">
+          <div class="panel">
+            <h3>招待内容</h3>
+            <table class="table">
+              <tbody>
+                <tr><th>プロジェクト</th><td>Task Management App</td></tr>
+                <tr><th>招待メール</th><td>new-member@example.com</td></tr>
+                <tr><th>招待状態</th><td>PENDING</td></tr>
+                <tr><th>初期ロール</th><td>MEMBER</td></tr>
+              </tbody>
+            </table>
+            <div class="toolbar" style="margin-top: 16px;">
+              <div class="button primary">参加する</div>
+              <div class="button">ログインへ</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page">
+        <div class="page-header">
+          <h1 class="page-title">共通状態</h1>
+        </div>
+        <div class="content">
+          <div class="board">
+            <div class="panel">
+              <h3>Loading</h3>
+              <p>一覧取得中、送信中、アップロード中は対象領域に表示する。</p>
+            </div>
+            <div class="panel">
+              <h3>Empty</h3>
+              <p>データが存在しない場合は、次にできる操作を示す。</p>
+            </div>
+            <div class="panel">
+              <h3>Error</h3>
+              <p>401、403、404、409など、状況に応じたメッセージを表示する。</p>
+            </div>
+            <div class="panel">
+              <h3>Confirm</h3>
+              <p>削除、ロール変更など影響が大きい操作では確認する。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
