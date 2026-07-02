@@ -71,7 +71,7 @@
 | 添付ファイル保存 | DB保存 | 採用 |
 | 開発用メール確認 | Mailpit | 採用 |
 | UI | Tailwind CSS、必要に応じてshadcn/ui | 採用 |
-| 状態管理 | React標準、必要に応じてTanStack Query | 採用 |
+| 状態管理 | サーバー状態はTanStack Query、画面状態はReact標準 | 採用 |
 | フロントエンドテスト | Vitest + React Testing Library | 採用候補 |
 | E2Eテスト | Playwright | 採用候補 |
 
@@ -133,7 +133,7 @@ Next.jsでは、画面単位でルーティングを管理する。
 - エラー状態
 - CSRFトークン
 
-状態管理ライブラリを使用するかどうかは、フロントエンド詳細設計で決定する。
+サーバー状態はTanStack Queryで管理し、画面状態はReact標準の状態管理で扱う。
 
 初期MVPでは、必要以上に複雑な状態管理を避ける。
 
@@ -538,13 +538,16 @@ Docker Composeでは、初期MVPで以下を起動する。
 - 添付ファイル本体はDBに保存する
 - 開発用メール確認はMailpitを採用する
 - UIはTailwind CSSを基本とし、必要に応じてshadcn/uiを採用する
-- 状態管理はReact標準を基本とし、必要に応じてTanStack Queryを採用する
+- サーバー状態はTanStack Queryで管理する
+- 画面状態はReact標準の状態管理を使用する
 - フロントエンドテストはVitest + React Testing Libraryを採用候補とする
 - E2EテストはPlaywrightを採用候補とする
 - 削除は論理削除を基本とする
 - セッション有効期限は最終アクセスから120分とする
 - パスワードリセットURLの有効期限は30分とする
 - 招待URLの有効期限は24時間とする
+- サーバー状態はTanStack Queryで管理する
+- 画面状態はReact標準の状態管理を使用する
 
 ## 29. 未決事項
 
@@ -555,8 +558,6 @@ Docker Composeでは、初期MVPで以下を起動する。
 - DTOの実装方針
 - Repositoryの実装方針
 - Serviceの分割方針
-- Controllerの分割方針
-- CSRFトークンのヘッダー名
 - 招待情報の期限切れ状態を自動更新するか、参照時に判定するか
 - パスワードリセット情報の期限切れ状態を自動更新するか、参照時に判定するか
 - 本番向けメール送信方式

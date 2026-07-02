@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="ja">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -298,6 +299,12 @@
     }
   </style>
 </head>
+
+<!--
+認証不要画面と認証後画面を1ファイルで確認するため、同一HTML内に並べている。
+実装時は、ログイン画面・パスワードリセット画面では認証後ヘッダーとサイドバーを表示しない。
+-->
+
 <body>
   <header>
     <div class="app-name">Development Support App</div>
@@ -393,6 +400,31 @@
               <div class="button">キャンセル</div>
             </div>
             <div class="note">SYSTEM_ADMINのみ表示する画面</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page">
+        <div class="page-header">
+          <h1 class="page-title">SCR-006 プロジェクト編集画面</h1>
+          <div class="toolbar">
+            <div class="button danger">プロジェクト削除</div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="form">
+            <div class="field">
+              <label>プロジェクト名</label>
+              <div class="input">Task Management App</div>
+            </div>
+            <div class="field">
+              <label>プロジェクト説明</label>
+              <div class="textarea">初期MVPのタスク管理機能</div>
+            </div>
+            <div class="toolbar">
+              <div class="button primary">保存</div>
+              <div class="button">キャンセル</div>
+            </div>
           </div>
         </div>
       </section>
@@ -522,13 +554,34 @@
               <h3>タスク情報</h3>
               <table class="table">
                 <tbody>
-                  <tr><th>Summary</th><td>カンバンUIを実装する</td></tr>
-                  <tr><th>Description</th><td>Status列、タスクカード、ドラッグアンドドロップを実装する。</td></tr>
-                  <tr><th>Status</th><td>IN_PROGRESS</td></tr>
-                  <tr><th>Priority</th><td>HIGHEST</td></tr>
-                  <tr><th>Assignee</th><td>山田太郎</td></tr>
-                  <tr><th>Creator</th><td>佐藤花子</td></tr>
-                  <tr><th>Due Date</th><td>2026-07-05</td></tr>
+                  <tr>
+                    <th>Summary</th>
+                    <td>カンバンUIを実装する</td>
+                  </tr>
+                  <tr>
+                    <th>Description</th>
+                    <td>Status列、タスクカード、ドラッグアンドドロップを実装する。</td>
+                  </tr>
+                  <tr>
+                    <th>Status</th>
+                    <td>IN_PROGRESS</td>
+                  </tr>
+                  <tr>
+                    <th>Priority</th>
+                    <td>HIGHEST</td>
+                  </tr>
+                  <tr>
+                    <th>Assignee</th>
+                    <td>山田太郎</td>
+                  </tr>
+                  <tr>
+                    <th>Creator</th>
+                    <td>佐藤花子</td>
+                  </tr>
+                  <tr>
+                    <th>Due Date</th>
+                    <td>2026-07-05</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -537,8 +590,14 @@
               <h3>添付ファイル</h3>
               <table class="table">
                 <tbody>
-                  <tr><td>wireframe.pdf</td><td>Download / Delete</td></tr>
-                  <tr><td>memo.txt</td><td>Download</td></tr>
+                  <tr>
+                    <td>wireframe.pdf</td>
+                    <td>Download / Delete</td>
+                  </tr>
+                  <tr>
+                    <td>memo.txt</td>
+                    <td>Download</td>
+                  </tr>
                 </tbody>
               </table>
               <div class="button">添付追加</div>
@@ -639,15 +698,66 @@
             <h3>招待内容</h3>
             <table class="table">
               <tbody>
-                <tr><th>プロジェクト</th><td>Task Management App</td></tr>
-                <tr><th>招待メール</th><td>new-member@example.com</td></tr>
-                <tr><th>招待状態</th><td>PENDING</td></tr>
-                <tr><th>初期ロール</th><td>MEMBER</td></tr>
+                <tr>
+                  <th>プロジェクト</th>
+                  <td>Task Management App</td>
+                </tr>
+                <tr>
+                  <th>招待メール</th>
+                  <td>new-member@example.com</td>
+                </tr>
+                <tr>
+                  <th>招待状態</th>
+                  <td>PENDING</td>
+                </tr>
+                <tr>
+                  <th>初期ロール</th>
+                  <td>MEMBER</td>
+                </tr>
               </tbody>
             </table>
             <div class="toolbar" style="margin-top: 16px;">
               <div class="button primary">参加する</div>
               <div class="button">ログインへ</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page">
+        <div class="page-header">
+          <h1 class="page-title">SCR-002 パスワードリセット申請画面</h1>
+        </div>
+        <div class="content">
+          <div class="login-shell">
+            <div class="form">
+              <div class="field">
+                <label>メールアドレス</label>
+                <div class="input">user@example.com</div>
+              </div>
+              <div class="button primary">リセットURL送信</div>
+              <div class="note">ログイン画面へ戻る</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page">
+        <div class="page-header">
+          <h1 class="page-title">SCR-003 パスワード再設定画面</h1>
+        </div>
+        <div class="content">
+          <div class="login-shell">
+            <div class="form">
+              <div class="field">
+                <label>新しいパスワード</label>
+                <div class="input">********</div>
+              </div>
+              <div class="field">
+                <label>新しいパスワード確認</label>
+                <div class="input">********</div>
+              </div>
+              <div class="button primary">再設定</div>
             </div>
           </div>
         </div>
@@ -681,4 +791,5 @@
     </main>
   </div>
 </body>
+
 </html>

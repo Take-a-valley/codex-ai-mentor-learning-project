@@ -381,3 +381,78 @@
 
 - ワイヤーフレームHTMLをレビューし、画面設計・フロントエンド設計との整合を確認する
 - 問題なければ、次の詳細設計として `frontend_api_client_design.md` または `test_case_design.md` の作成へ進む
+
+---
+
+## 2026-06-29 終了報告
+
+### 作業内容
+
+- ワイヤーフレームHTMLの修正内容をレビューした
+- `frontend_api_client_design.md` の作成内容をレビューした
+- Cookie送信、認証不要POSTのCSRF、403時の `errorCode` 判定、Query Key方針について補足観点を提示した
+- `multipart/form-data`、`lib/features`、`Query Hooks`、`HttpOnly`、`JSESSIONID`、`Mutation` を解説した
+- 解説した用語を `docs/context/glossary.md` に追記・補強した
+- `frontend_component_design.md` の作成内容をレビューした
+- `frontend_component_design.md` の修正内容を再レビューし、大きな問題がないことを確認した
+- 次に作成する設計書として `test_case_design.md` の全文案を提示した
+- `docs/context/current_tasks.md` を更新した
+
+### 現在の状況
+
+- 詳細設計書は `docs/architecture/Task management function/Detail design/` に作成中
+- 以下の詳細設計書は作成・レビュー済み
+  - `technical_decision_design.md`
+  - `backend_structure_design.md`
+  - `entity_design.md`
+  - `dto_design.md`
+  - `repository_design.md`
+  - `service_design.md`
+  - `controller_design.md`
+  - `exception_design.md`
+  - `security_design.md`
+  - `flyway_migration_design.md`
+  - `docker_compose_design.md`
+  - `frontend_structure_design.md`
+  - `frontend_state_design.md`
+  - `frontend_api_client_design.md`
+  - `frontend_component_design.md`
+- ワイヤーフレームHTMLは配置済み
+
+### 直近レビューでの残修正候補
+
+- `frontend_component_design.md` の共通エラー表示コンポーネント説明は、内容は問題ないが「17. エラー表示方針」へ移動すると章構成として自然
+
+### 次回タスク
+
+- `test_case_design.md` を作成する
+- 作成済みの場合は `test_case_design.md` をレビューする
+
+---
+
+## 2026-07-01 終了報告
+
+### 作業内容
+
+- 作業開始時に各Markdownファイルを読み込み、現在の作業状況を復元した
+- `test_case_design.md` の作成内容をレビューした
+- 詳細設計一式の横断レビューを実施した
+- 横断レビューで、ファイル種別不正時のHTTPステータス、SYSTEM_ADMINロール変更の初期MVP対象外、Entity未決事項、Controllerでのログインユーザー取得方針、コメント編集表示方針を確認した
+- ユーザーによる修正後、横断レビュー指摘事項が解消されていることを確認した
+- クライアントモードに移行し、実装開始に必要な未決事項のみ最終整理する方針を確認した
+- 一般的な開発順序に準じ、環境・DB・バックエンド基盤から実装を開始する方針を確認した
+- 実装前の推奨採用事項として、App Router、shadcn/uiの限定利用、パスワードルール、ログイン失敗回数制限の初期MVP対象外、期限切れ処理の参照時判定、Java型方針、token保存形式、Controllerでのログインユーザー取得方針を整理した
+- `docs/context/current_tasks.md`、`docs/context/decisions.md`、`docs/context/architecture_summary.md` を更新した
+
+### 現在の状況
+
+- 詳細設計フェーズの主要設計書は作成・レビュー済み
+- 詳細設計一式の横断レビューは完了
+- 実装開始前の最終整理では、実装開始に必要な未決事項のみ決める方針
+- 開発順序は、一般的な業務アプリ開発に準じて環境・DB・バックエンド基盤から開始する方針
+
+### 次回タスク
+
+- 今回の最終整理内容を、どの設計書へ反映するか整理する
+- 実装開始に必要な未決事項の採用内容を設計書へ反映する修正内容を提示する
+- その後、実装順序を最終確定する

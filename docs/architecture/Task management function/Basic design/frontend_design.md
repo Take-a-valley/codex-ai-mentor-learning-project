@@ -46,7 +46,7 @@
 | データ形式 | JSON |
 | ファイルアップロード | multipart/form-data |
 | UI | Tailwind CSS、必要に応じてshadcn/ui |
-| 状態管理 | React標準、必要に応じてTanStack Query |
+| 状態管理 | サーバー状態はTanStack Query、画面状態はReact標準 |
 
 ## 4. フロントエンドの責務
 
@@ -248,9 +248,7 @@ Statusは以下とする。
 | UI状態 | モーダル表示、確認ダイアログ、ローディング、エラー |
 | CSRF状態 | CSRFトークン |
 
-基本設計時点では、具体的な状態管理ライブラリは確定しない。
-
-状態管理ライブラリを使用するかどうかは、後続工程で検討する。
+サーバー状態はTanStack Queryで管理し、画面状態はReact標準の状態管理で扱う。
 
 ## 11. API連携方針
 

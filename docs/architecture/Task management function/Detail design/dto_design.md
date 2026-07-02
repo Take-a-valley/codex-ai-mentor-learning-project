@@ -181,7 +181,7 @@ CSRFトークン取得APIのレスポンスDTO。
 | token | string | CSRFトークン |
 | headerName | string | リクエスト時に使用するヘッダー名 |
 
-CSRFトークンの具体的なヘッダー名は、認証・認可詳細設計で決定する。
+CSRFトークンのヘッダー名は、CsrfTokenResponseのheaderNameで返却する値を使用する。
 
 ## 10. パスワードリセットDTO
 
