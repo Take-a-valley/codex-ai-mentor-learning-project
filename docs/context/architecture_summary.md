@@ -2,17 +2,17 @@
 
 ## 現在の状態
 
-- タスク管理機能の設計書は `docs/architecture/Task management function/` 配下で管理する
-- 基本設計書は `docs/architecture/Task management function/Basic design/` に集約済み
-- 詳細設計書は今後 `docs/architecture/Task management function/Detail design/` に作成する
-- ワイヤーフレームHTMLは `docs/architecture/Task management function/screen design/Task management function/wireframe.html` に配置済み
+- タスク管理機能の設計書は `docs/architecture/タスク管理機能/` 配下で管理する
+- 基本設計書は `docs/architecture/タスク管理機能/基本設計書/` に集約済み
+- 詳細設計書は `docs/architecture/タスク管理機能/詳細設計書/` に集約済み
+- ワイヤーフレームHTMLは `docs/architecture/タスク管理機能/画面設計書/ワイヤーフレーム.html` に配置済み
 - 要件定義書、基本設計書、DB設計書、API設計書、画面設計書、認証・認可設計書、フロントエンド設計書、バックエンド設計書、テスト方針書は作成済み
 - 基本設計書一式の横断レビューでは大きな問題なし
 - API設計書の認可表タイポは修正済み
 - 画面/API対応表のプロジェクト削除API配置は修正済み
 - 画面設計書のプロジェクト編集画面に削除ボタンは追記済み
-- 詳細設計では `frontend_api_client_design.md` と `frontend_component_design.md` まで作成・レビュー済み
-- `test_case_design.md` は作成・レビュー済み
+- 詳細設計では `フロントエンドAPIクライアント設計書.md` と `フロントエンドコンポーネント設計書.md` まで作成・レビュー済み
+- `テストケース設計書.md` と `実装計画書.md` は作成済み
 - 詳細設計一式の横断レビューは完了
 - クライアントモードで、実装開始に必要な未決事項のみ最終整理する方針を確認済み
 - 設計書は `/docs/architecture/` 配下にユーザーが作成する
