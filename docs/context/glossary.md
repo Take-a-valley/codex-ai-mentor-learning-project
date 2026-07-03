@@ -57,9 +57,35 @@
 | Flyway | SQLファイルでDBマイグレーションを管理するツール | 本プロジェクトで採用 |
 | Liquibase | XML、YAML、JSON、SQLなどでDB変更を管理できるマイグレーションツール | Flywayより高機能だが学習コストが高め |
 | Docker | アプリやミドルウェアをコンテナとして動かすための仕組み | 開発環境でMySQLとMailpitを動かす |
+| Docker Engine | Dockerコンテナを実際に作成・起動・停止するための中核機能 | Docker Desktopの内部で動作する |
+| Docker Desktop | WindowsやMacでDockerを使いやすくするためのデスクトップアプリ | 学習・ローカル開発では通常これをインストールして使用する |
 | Docker Compose | 複数のDockerコンテナをまとめて起動・停止・設定する仕組み | 本プロジェクトではMySQLとMailpitを起動する |
+| docker-compose.yml | Docker Composeで起動するサービス、ポート、環境変数、保存領域などを書く設定ファイル | 本プロジェクトでは `infra/docker/docker-compose.yml` に配置する方針 |
+| 環境変数展開 | `${MYSQL_PORT}` のように、`.env` などに定義した値を設定ファイル内へ埋め込む仕組み | Docker Composeではポート番号やパスワードなどを外部化するために使う |
+| Dockerイメージ | コンテナを作るためのテンプレート | MySQL 8系やMailpitの公式イメージを利用する |
 | コンテナ | アプリやミドルウェアを隔離された環境で動かす単位 | MySQLコンテナ、Mailpitコンテナなど |
+| Dockerfile | 自分でDockerイメージを作る手順を書くファイル | 初期段階ではMySQLとMailpitの既存イメージを使うため必須ではない |
+| Docker Hub | Dockerイメージを公開・取得できる代表的なレジストリ | MySQLやMailpitのイメージ取得元になる |
+| レジストリ | Dockerイメージを保管・配布する場所 | Docker Hubが代表例 |
+| サービス | Docker Composeで管理するコンテナ定義の単位 | `mysql`、`mailpit` など |
+| ポートマッピング | PC側のポートとコンテナ側のポートをつなぐ設定 | `3306:3306` のように書き、PCからMySQLへ接続できるようにする |
+| 環境変数 | アプリやコンテナに外部から渡す設定値 | DB名、ユーザー名、パスワード、ポート番号などに使う |
 | volume | Dockerコンテナのデータを永続化するための保存領域 | MySQLデータ保持に使用する |
+| volume driver | Docker volumeをどの仕組みで保存・管理するかを指定する設定 | 未指定時は通常 `local` が使われる |
+| local driver | Dockerホスト上にvolumeを保存する標準的なvolume driver | ローカル開発では明示しなくても問題ない |
+| バインドマウント | PC上のフォルダやファイルをコンテナ内へ接続する仕組み | 設定ファイルや初期化SQLを渡す場合に使うことがある |
+| 永続化 | コンテナを削除・再作成してもデータが残るようにすること | MySQLのデータはvolumeで永続化する |
+| Dockerネットワーク | コンテナ同士が通信するための仮想的なネットワーク | Docker Composeでは同じ構成内のサービス同士がサービス名で通信できる |
+| コンテナログ | コンテナ内で起きた処理やエラーの出力 | 起動失敗や接続エラーの確認に使う |
+| healthcheck | コンテナ内のサービスが正常に動作しているか確認する設定 | MySQLが接続可能か確認するために使う |
+| restart policy | コンテナ停止時にDockerが再起動するかを決める設定 | 開発環境では `unless-stopped` が扱いやすい |
+| docker compose up | Docker Composeで定義したサービスを起動するコマンド | 開発用DBやMailpitの起動に使う |
+| docker compose down | Docker Composeで起動したサービスを停止・削除するコマンド | 開発環境を止めるときに使う |
+| --env-file | Docker Compose実行時に読み込む環境変数ファイルを指定するオプション | ルートの `.env` を明示して読み込むために使う |
+| -f | Docker Compose実行時に使用するComposeファイルを指定するオプション | `infra/docker/docker-compose.yml` を指定するために使う |
+| restart | Dockerコンテナが停止した場合の再起動方針 | 開発環境では `unless-stopped` を使う方針 |
+| healthcheck | コンテナ内のサービスが正常に起動しているか確認する仕組み | MySQLが接続可能か確認するために使う |
+| driver: local | Docker volumeをローカルDocker環境内に作成する指定 | 明示しなくても通常はデフォルトでlocalになる |
 | Mailpit | 開発中に送信メールをブラウザで確認するためのツール | 本プロジェクトで採用 |
 | MailHog | Mailpitと同様に開発用メール確認を行うツール | 今回はMailpitを採用 |
 | Service | 業務ルール、トランザクション、認可判定を担当するバックエンド層 | Controllerから呼び出される |
