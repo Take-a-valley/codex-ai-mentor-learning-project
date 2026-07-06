@@ -48,17 +48,30 @@
 | CSRFトークン | 正規画面からのリクエストであることを確認するための値 | 状態変更APIで送信する |
 | CSRFトークン取得API | フロントエンドがCSRFトークンを取得するAPI | 本プロジェクトでは `/api/csrf-token` |
 | Spring Security | Spring Bootで認証・認可・CSRF対策などを扱う仕組み | セッション方式とCSRF対策で使用する |
+| ビルド | ソースコードや設定ファイルを、実行・配布できる形に変換・検証する作業 | Javaではコンパイル、テスト、jar作成などを含む |
 | ビルドツール | ソースコードのビルド、テスト、依存関係管理を行う道具 | 本プロジェクトではMaven |
-| Maven | Javaプロジェクトのビルドツール | Java 25 / Spring Boot構成で使用する |
+| Maven | Javaプロジェクトのビルド、テスト、依存関係管理、実行、成果物作成を行うツール | 本プロジェクトでは `backend/pom.xml` を読み取り、Spring Bootアプリを管理する |
+| POM | Project Object Modelの略で、Mavenプロジェクトの設定モデル | `pom.xml` にプロジェクト情報、依存関係、ビルド設定を書く |
+| pom.xml | Mavenプロジェクトの設定ファイル | バックエンドの依存関係、Javaバージョン、Spring Bootバージョンなどを管理する |
+| 依存 | ある機能やライブラリを使うために、別のライブラリや仕組みを必要とすること | 例: Spring Data JPAを使うには関連ライブラリが必要 |
+| 依存関係 | プロジェクトが利用する外部ライブラリや、そのライブラリがさらに必要とするライブラリの関係 | Mavenが `pom.xml` をもとに取得・管理する |
 | DBアクセス | アプリケーションからDBへ読み書きすること | Repository層が担当する |
-| Spring Data JPA | JavaのEntityとRepositoryを使ってDBアクセスする仕組み | 本プロジェクトのDBアクセス方式 |
+| JPA | Java Persistence APIの略で、JavaオブジェクトとDBテーブルを対応づけるための標準仕様 | EntityをDBレコードとして扱う考え方の土台 |
+| Spring Data JPA | JavaのEntityとRepositoryを使ってDBアクセスする仕組み | JPAをSpringで扱いやすくしたもので、本プロジェクトのDBアクセス方式 |
 | DBマイグレーション | DB構造の変更を履歴ファイルとして管理すること | Flywayで管理する |
 | 手動SQL | 開発者が直接SQLを実行してDBを変更する方法 | 履歴管理が弱く、初期MVPでは基本方針にしない |
-| Flyway | SQLファイルでDBマイグレーションを管理するツール | 本プロジェクトで採用 |
+| Flyway | SQLファイルでDBマイグレーションを管理するツール | `V1__create_tables.sql` のようなファイルを順番に実行し、DB構造の履歴を管理する |
 | Liquibase | XML、YAML、JSON、SQLなどでDB変更を管理できるマイグレーションツール | Flywayより高機能だが学習コストが高め |
+| XML | タグでデータ構造を表すマークアップ言語 | `pom.xml` のように設定やデータ構造を厳密に表す用途で使われる |
+| HTML | Webページの構造を表すマークアップ言語 | ブラウザ表示を目的とし、XMLより表示用途に特化している |
+| Schema | データや文書がどのような構造・型・制約を持つかを定義するルール | DBスキーマ、JSON Schema、XML Schemaなどで使われる考え方 |
+| XML Schema | XML文書にどのタグや属性を書けるか、どの順序・型にすべきかを定義するルール | `pom.xml` の構造がMaven POMとして正しいかを示すために使われる |
+| jar | Java Archiveの略で、Javaアプリやライブラリをまとめたファイル形式 | Spring Bootアプリをビルドすると実行可能jarとして作成できる |
 | Docker | アプリやミドルウェアをコンテナとして動かすための仕組み | 開発環境でMySQLとMailpitを動かす |
 | Docker Engine | Dockerコンテナを実際に作成・起動・停止するための中核機能 | Docker Desktopの内部で動作する |
 | Docker Desktop | WindowsやMacでDockerを使いやすくするためのデスクトップアプリ | 学習・ローカル開発では通常これをインストールして使用する |
+| Docker Desktop Linux Engine | Docker Desktop上でLinuxコンテナを動かすための実行環境 | WindowsでMySQLやMailpitなどのLinuxコンテナを起動するために必要 |
+| 名前付きパイプ | Windows上でプロセス同士が通信するための仕組み | Docker CLIがDocker Desktop Engineへ接続する時に使われることがある |
 | Docker Compose | 複数のDockerコンテナをまとめて起動・停止・設定する仕組み | 本プロジェクトではMySQLとMailpitを起動する |
 | docker-compose.yml | Docker Composeで起動するサービス、ポート、環境変数、保存領域などを書く設定ファイル | 本プロジェクトでは `infra/docker/docker-compose.yml` に配置する方針 |
 | 環境変数展開 | `${MYSQL_PORT}` のように、`.env` などに定義した値を設定ファイル内へ埋め込む仕組み | Docker Composeではポート番号やパスワードなどを外部化するために使う |
@@ -69,11 +82,12 @@
 | レジストリ | Dockerイメージを保管・配布する場所 | Docker Hubが代表例 |
 | サービス | Docker Composeで管理するコンテナ定義の単位 | `mysql`、`mailpit` など |
 | ポートマッピング | PC側のポートとコンテナ側のポートをつなぐ設定 | `3306:3306` のように書き、PCからMySQLへ接続できるようにする |
+| ポート競合 | 同じPC上で複数のプロセスが同じポートを使おうとして衝突すること | 今回は既存の `mysqld` が3306番を使用していたためDockerのMySQLが起動できなかった |
 | 環境変数 | アプリやコンテナに外部から渡す設定値 | DB名、ユーザー名、パスワード、ポート番号などに使う |
 | volume | Dockerコンテナのデータを永続化するための保存領域 | MySQLデータ保持に使用する |
 | volume driver | Docker volumeをどの仕組みで保存・管理するかを指定する設定 | 未指定時は通常 `local` が使われる |
 | local driver | Dockerホスト上にvolumeを保存する標準的なvolume driver | ローカル開発では明示しなくても問題ない |
-| バインドマウント | PC上のフォルダやファイルをコンテナ内へ接続する仕組み | 設定ファイルや初期化SQLを渡す場合に使うことがある |
+| バインドマウント | PC上の特定フォルダやファイルをコンテナ内へ直接接続する仕組み | リポジトリ配下にDB実データが生成される可能性があるため、MySQLデータ永続化にはDocker volumeを優先する |
 | 永続化 | コンテナを削除・再作成してもデータが残るようにすること | MySQLのデータはvolumeで永続化する |
 | Dockerネットワーク | コンテナ同士が通信するための仮想的なネットワーク | Docker Composeでは同じ構成内のサービス同士がサービス名で通信できる |
 | コンテナログ | コンテナ内で起きた処理やエラーの出力 | 起動失敗や接続エラーの確認に使う |

@@ -10,7 +10,7 @@
 
 ## 用語集運用
 
-- ユーザーが解説を希望した用語は、`docs/context/glossary.md` に追記する
-- 設計レビューや学習支援の中で、理解に必要な重要用語が出た場合も、必要に応じて `docs/context/glossary.md` に追記する
+- ユーザーが解説を希望した用語は、`docs/context/glossary/glossary.md` または `docs/context/glossary/` 配下の学習用Markdownに追記する
+- 設計レビューや学習支援の中で、理解に必要な重要用語が出た場合も、必要に応じて `docs/context/glossary/glossary.md` または `docs/context/glossary/` 配下の学習用Markdownに追記する
 - 用語集には、用語の意味だけでなく、本プロジェクトでの扱い方や採用方針も簡潔に残す
 - 用語が既に存在する場合は、重複行を増やさず、備考や説明を必要に応じて更新する
