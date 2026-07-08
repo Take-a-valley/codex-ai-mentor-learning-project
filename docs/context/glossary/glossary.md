@@ -58,6 +58,12 @@
 | DBアクセス | アプリケーションからDBへ読み書きすること | Repository層が担当する |
 | JPA | Java Persistence APIの略で、JavaオブジェクトとDBテーブルを対応づけるための標準仕様 | EntityをDBレコードとして扱う考え方の土台 |
 | Spring Data JPA | JavaのEntityとRepositoryを使ってDBアクセスする仕組み | JPAをSpringで扱いやすくしたもので、本プロジェクトのDBアクセス方式 |
+| 起動クラス | Spring Bootアプリケーションの起点となるJavaクラス | 本プロジェクトでは `com.example.devsupport` 配下に配置し、バックエンドを起動する入口にする |
+| エントリーポイント | アプリケーションの実行が始まる入口 | Javaでは `main` メソッドが代表的なエントリーポイント |
+| Tomcat | JavaのWebアプリケーションを動かすWebサーバー / Servletコンテナ | Spring Boot WebアプリのHTTP受付口として組み込みで起動する |
+| HikariCP | JavaアプリケーションでDB接続を効率よく管理するコネクションプール | Spring Bootの標準的なDB接続プールとしてMySQL接続に使われる |
+| Hibernate | JPAの代表的な実装ライブラリ | EntityとDBテーブルの対応づけ、SQL生成、DBアクセスの土台として使われる |
+| generated security password | Spring Securityの独自設定が未実装のときに自動生成される開発用パスワード | 本番用ではなく、後続のSecurity実装で独自ログイン方式へ置き換える |
 | DBマイグレーション | DB構造の変更を履歴ファイルとして管理すること | Flywayで管理する |
 | 手動SQL | 開発者が直接SQLを実行してDBを変更する方法 | 履歴管理が弱く、初期MVPでは基本方針にしない |
 | Flyway | SQLファイルでDBマイグレーションを管理するツール | `V1__create_tables.sql` のようなファイルを順番に実行し、DB構造の履歴を管理する |

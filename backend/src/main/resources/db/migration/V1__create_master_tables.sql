@@ -1,0 +1,41 @@
+CREATE TABLE `system_roles` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `code` VARCHAR(255) NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `uk_system_roles_code` UNIQUE (`code`)
+);
+
+CREATE TABLE `project_roles` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `code` VARCHAR(255) NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `uk_project_roles_code` UNIQUE (`code`)
+);
+
+CREATE TABLE `task_statuses` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `code` VARCHAR(255) NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `sort_order` INT NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `uk_task_statuses_code` UNIQUE (`code`)
+);
+
+CREATE TABLE `task_priorities` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `code` VARCHAR(255) NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `sort_order` INT NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `uk_task_priorities_code` UNIQUE (`code`)
+);

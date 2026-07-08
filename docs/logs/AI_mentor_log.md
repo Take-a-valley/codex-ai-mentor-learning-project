@@ -499,3 +499,111 @@
 - Docker ComposeでMySQLとMailpitを起動確認する
 - Mailpit Web UIを `http://localhost:8025` で確認する
 - MySQLの起動状態、healthcheck、volume作成状況を確認する
+
+---
+
+## 2026-07-06 終了報告
+
+### 作業内容
+
+- Docker ComposeでMySQL 8系とMailpitを起動するための準備を進めた
+- `infra/docker/docker-compose.yml` の内容をレビューし、MySQL、Mailpit、volume、network、healthcheckの設定方針を確認した
+- Docker Desktop未起動時の接続エラー、Docker Engine、名前付きパイプの意味を整理した
+- MySQLの3306番ポート競合を確認し、ローカル接続ポートを3307番へ変更する方針を整理した
+- MySQLとMailpitのコンテナが `healthy` になることを確認した
+- Mailpit Web UIとMySQL接続確認まで完了した
+- `backend/pom.xml` の内容をレビューし、MySQL ConnectorのgroupId、XML構造、`build` 要素の配置、閉じタグの不足を確認した
+- 修正後、`mvn -f backend/pom.xml validate` が成功したことを確認した
+- Maven、POM、依存、JPA、Flyway、XML、XML Schema、jar、ビルドなどの用語を整理した
+- `backend/src/main/resources/application.yml` の内容をレビューし、`spring.datasource`、`spring.jpa`、`spring.flyway`、`spring.mail` の階層構造を確認した
+- `application.yml`、YAML、Markdownの役割と使い分けを整理した
+- `docs/context/glossary/` 配下に、Docker Compose、pom.xml、application.ymlの学習用解説を整理した
+- `docs/context/current_tasks.md` を、実装準備完了後の状態に更新した
+
+### 現在の状況
+
+- 詳細設計一式は作成・レビュー済み
+- 実装用ディレクトリ構成は作成済み
+- `.env.example`、`.env`、`.gitignore` の基本方針は確認済み
+- Docker ComposeでMySQL 8系とMailpitを起動できる状態
+- MySQLとMailpitはいずれも `healthy` を確認済み
+- MySQLはローカルPC側の3307番ポートから接続する方針
+- `backend/pom.xml` は作成・レビュー済みで、Maven validate成功済み
+- `application.yml` は作成・レビュー済み
+- 実装準備として、Docker Compose、Maven、Spring Boot設定の初期確認は完了
+
+### 学習内容
+
+- Docker Composeは、複数コンテナをまとめて定義・起動するための仕組み
+- `.env` はローカル実行用の秘密情報や環境差分を持つためGit管理対象外にする
+- `.env.example` は公開してよいサンプルとしてGit管理対象にする
+- Dockerのポートマッピングは「PC側ポート:コンテナ側ポート」で考える
+- MavenはJavaプロジェクトの依存関係管理とビルドを行うツール
+- `pom.xml` はMavenにプロジェクト構成と依存関係を伝える設定ファイル
+- `application.yml` はSpring Bootに実行時設定を伝えるファイル
+- YAMLはインデントで階層を表すため、設定の親子関係が重要
+
+### 直近レビューでの残修正候補
+
+- なし
+
+### 次回タスク
+
+- Spring Boot起動クラス `DevSupportApplication` を作成する
+- Spring Bootを最小構成で起動確認する
+- `application.yml` の設定でMySQLへ接続できることを確認する
+- Flywayの初期マイグレーション作成へ進む
+- 初期マイグレーション作成後、DBスキーマと設計書の整合を確認する
+
+---
+
+## 2026-07-09 終了報告
+
+### 作業内容
+
+- 作業開始時に各Markdownファイルを読み込み、現在の作業状況を復元した
+- Spring Boot起動クラス `DevSupportApplication` の内容をレビューした
+- 起動クラス、`SpringApplication`、`SpringBootApplication`、エントリーポイントの役割を整理した
+- Spring Bootを最小構成で起動し、Tomcat起動、MySQL接続、JPA初期化、Spring Security自動設定が行われていることをログから確認した
+- Spring Boot起動成功ログの見方として、`Started DevSupportApplication`、`Tomcat started on port 8080`、`HikariPool-1 - Start completed` を確認ポイントとして整理した
+- Flyway初期マイグレーション作成の考え方、配置場所、命名規則、作成順序、`flyway_schema_history`、チェックサムを学習した
+- `docs/context/glossary/flyway_explanation.md` を作成し、Flywayの詳細解説を保存した
+- README差し替え用ドラフトを `docs/context/readme_project_draft.md` として作成した
+- `V1__create_master_tables.sql` と `V2__create_users_table.sql` の作成内容をレビューした
+- 固定マスタテーブルの `code` カラム名は、設計書どおり各テーブル共通で `code` とする方針を確認した
+- `users` テーブル名はFlywayマイグレーション設計書に合わせて複数形 `users` とする方針を確認した
+- DB物理テーブル名は複数形 + snake_case、Java Entity名は単数形 + PascalCaseで整理する方針を確認した
+- `docs/context/current_tasks.md` を、Flyway初期マイグレーション作成中の状態に更新した
+
+### 現在の状況
+
+- Spring Boot起動クラスは作成・レビュー済み
+- Spring Bootの最小起動確認は完了
+- MySQL 8系への接続確認は完了
+- Flyway初期マイグレーション作成に着手済み
+- `V2__create_users_table.sql` は大きな問題なし
+- `V1__create_master_tables.sql` は固定マスタ4テーブルを作成する方針自体は正しいが、SQL構文上の残修正がある
+
+### 学習内容
+
+- 起動クラスはSpring Bootアプリケーションの入口
+- `SpringApplication` はSpring Bootアプリを実際に起動する実行役
+- `SpringBootApplication` は起動クラスであることを示し、自動設定やコンポーネントスキャンを有効にするアノテーション
+- FlywayはDB構造変更をSQLファイルと履歴テーブルで管理するツール
+- Flywayファイル名は `V1__create_xxx.sql` のように、バージョン番号と説明の間にアンダースコア2つを使う
+- 実行済みマイグレーションは原則変更せず、必要に応じて次のバージョンを追加する
+- DB制約には名前を付けると、エラー時に原因を追いやすい
+- 同じカラムにインラインの `UNIQUE` と名前付き `CONSTRAINT` を二重に定義しない
+
+### 直近レビューでの残修正候補
+
+- `V1__create_master_tables.sql` の各テーブルで、`code` 行から `UNIQUE` を削除する
+- `V1__create_master_tables.sql` の各テーブルで、`PRIMARY KEY (`id`)` の後ろにカンマを追加する
+
+### 次回タスク
+
+- `V1__create_master_tables.sql` の残修正を行う
+- 修正後、`V1__create_master_tables.sql` を再レビューする
+- 問題なければSpring Bootを起動し、FlywayでV1/V2が適用されることを確認する
+- MySQL上に固定マスタテーブルと `users` テーブルが作成されたことを確認する
+- 次のマイグレーションとしてプロジェクト系テーブル作成へ進む

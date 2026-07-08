@@ -33,11 +33,27 @@
 - `.gitignore` は `.env`、`.env.*` を除外し、`.env.example` のみGit管理対象にする設定を確認済み
 - Dockerの基本概念、Docker Compose、ポートフォリオ公開を見据えたDocker化方針を整理済み
 - 設計書には、初期実装ではMySQLとMailpitのみDocker Composeで管理し、将来的にfrontend/backendもDocker化する方針を反映済み
-- 次回は、`infra/docker/docker-compose.yml` の作成・レビューとDocker Compose起動確認から進める
+- `infra/docker/docker-compose.yml` は作成・レビュー済み
+- Docker ComposeでMySQL 8系とMailpitを起動し、両コンテナの `healthy` を確認済み
+- Mailpit Web UIは `http://localhost:8025` で確認済み
+- MySQLの接続確認は完了済み
+- 3306番ポート競合に対応するため、ローカル接続ポートは `3307` を使用する方針
+- `backend/pom.xml` は作成・レビュー済み
+- `mvn -f backend/pom.xml validate` は成功済み
+- `backend/src/main/resources/application.yml` は作成・レビュー済み
+- 実装準備として、Docker Compose、Maven、Spring Boot設定の初期確認は完了済み
+- Spring Boot起動クラス `DevSupportApplication` は作成・レビュー済み
+- Spring Bootの最小起動確認は完了済み
+- Spring Boot起動時にMySQL 8系へ接続できることを確認済み
+- Flyway初期マイグレーション作成に着手済み
+- `V1__create_master_tables.sql` は作成・レビュー中
+- `V2__create_users_table.sql` は作成・レビュー済み
+- Flywayマイグレーション設計書のV2ファイル名例は、実ファイル名に合わせて修正済み
 
 ## 直近レビューでの残修正候補
 
-- なし
+- `V1__create_master_tables.sql` の各テーブルで、`code` 行から `UNIQUE` を削除する
+- `V1__create_master_tables.sql` の各テーブルで、`PRIMARY KEY (`id`)` の後ろにカンマを追加する
 
 ## 継続運用ルール
 
@@ -46,9 +62,8 @@
 
 ## 次回タスク
 
-- 必要に応じてローカル用 `.env` を作成する
-- `infra/docker/docker-compose.yml` にMySQL 8系とMailpitの設定を記述する
-- `docker-compose.yml` をレビューし、`.env.example` との整合を確認する
-- Docker ComposeでMySQLとMailpitを起動確認する
-- Mailpit Web UIを開き、`http://localhost:8025` で確認できることを確認する
-- MySQLの起動状態、healthcheck、volume作成状況を確認する
+- `V1__create_master_tables.sql` の残修正を行う
+- 修正後、`V1__create_master_tables.sql` を再レビューする
+- 問題なければSpring Bootを起動し、FlywayでV1/V2が適用されることを確認する
+- MySQL上に固定マスタテーブルと `users` テーブルが作成されたことを確認する
+- 次のマイグレーションとしてプロジェクト系テーブル作成へ進む
