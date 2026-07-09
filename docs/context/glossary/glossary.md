@@ -67,6 +67,8 @@
 | DBマイグレーション | DB構造の変更を履歴ファイルとして管理すること | Flywayで管理する |
 | 手動SQL | 開発者が直接SQLを実行してDBを変更する方法 | 履歴管理が弱く、初期MVPでは基本方針にしない |
 | Flyway | SQLファイルでDBマイグレーションを管理するツール | `V1__create_tables.sql` のようなファイルを順番に実行し、DB構造の履歴を管理する |
+| spring-boot-starter-flyway | Spring Boot起動時にFlywayを自動実行するためのSpring Boot連携スターター | FlywayのSQLファイルをSpring Bootアプリ起動時に適用するために使う |
+| flyway_schema_history | Flywayがマイグレーション実行履歴を保存する管理テーブル | V1、V2などのSQLが実行済みか確認するために使う |
 | Liquibase | XML、YAML、JSON、SQLなどでDB変更を管理できるマイグレーションツール | Flywayより高機能だが学習コストが高め |
 | XML | タグでデータ構造を表すマークアップ言語 | `pom.xml` のように設定やデータ構造を厳密に表す用途で使われる |
 | HTML | Webページの構造を表すマークアップ言語 | ブラウザ表示を目的とし、XMLより表示用途に特化している |

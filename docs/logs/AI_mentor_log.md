@@ -607,3 +607,54 @@
 - 問題なければSpring Bootを起動し、FlywayでV1/V2が適用されることを確認する
 - MySQL上に固定マスタテーブルと `users` テーブルが作成されたことを確認する
 - 次のマイグレーションとしてプロジェクト系テーブル作成へ進む
+
+---
+
+## 2026-07-10 終了報告
+
+### 作業内容
+
+- Spring Boot起動ログを確認し、MySQL接続とSpring Boot起動は成功していることを整理した
+- Flyway実行ログが出ていないことから、ログだけではFlyway適用成功と判断できないことを確認した
+- MySQLへDocker Compose経由で接続し、`SHOW TABLES;` によりテーブルが未作成であることを確認した
+- `target/classes/db/migration/` に `V1__create_master_tables.sql` と `V2__create_users_table.sql` がコピーされていることを確認した
+- `pom.xml`、`application.yml`、Mavenローカルキャッシュを確認し、SQL配置ではなくSpring Boot起動時のFlyway自動実行が有効になっていない可能性を整理した
+- Spring Boot 4.1.0の依存管理上、`spring-boot-starter-flyway` / `spring-boot-flyway` が存在することを確認した
+- 現在の `pom.xml` には `flyway-core` と `flyway-mysql` はあるが、Spring Boot連携用の `spring-boot-starter-flyway` が未追加であることを原因候補として整理した
+- MySQLモニターから抜ける方法として `exit;` / `quit;` を説明した
+- `docs/context/glossary/glossary.md` に `spring-boot-starter-flyway` と `flyway_schema_history` を追記した
+- `docs/context/current_tasks.md` を、Flyway未適用の原因切り分け後の状態に更新した
+
+### 現在の状況
+
+- Spring Boot起動クラスは作成・レビュー済み
+- Spring Bootの最小起動確認は完了
+- MySQL 8系への接続確認は完了
+- `V1__create_master_tables.sql` と `V2__create_users_table.sql` は作成・レビュー済み
+- SQLファイルは `target/classes/db/migration/` にコピーされている
+- MySQL上にはまだテーブルが作成されていない
+- FlywayがSpring Boot起動時に自動実行されていない可能性が高い
+- 次の対応は `pom.xml` に `spring-boot-starter-flyway` を追加すること
+
+### 学習内容
+
+- Spring Bootの起動成功とFlywayの適用成功は別々に確認する必要がある
+- MySQL接続成功は `HikariPool-1 - Start completed` や `Database JDBC URL` で確認できる
+- Flyway適用成功はログの `Migrating schema` や `Successfully applied`、またはDB内の `flyway_schema_history` で確認する
+- `SHOW TABLES;` が空の場合、DB接続は成功していてもマイグレーションは未適用と判断できる
+- `flyway-core` はFlyway本体、`spring-boot-starter-flyway` はSpring Boot起動時のFlyway連携に使う
+- MySQLモニターを終了するには `exit;` または `quit;` を使う
+
+### 直近レビューでの残修正候補
+
+- `pom.xml` に `spring-boot-starter-flyway` を追加する
+- 依存追加後、Spring Bootを再起動してFlywayログが出るか確認する
+
+### 次回タスク
+
+- `pom.xml` に `spring-boot-starter-flyway` を追加する
+- `pom.xml` をレビューする
+- Spring Bootを再起動し、FlywayがV1/V2を適用するか確認する
+- MySQL上で `SHOW TABLES;` を実行し、固定マスタテーブルと `users` テーブルが作成されたことを確認する
+- `flyway_schema_history` の内容を確認する
+- 次のマイグレーションとしてプロジェクト系テーブル作成へ進む

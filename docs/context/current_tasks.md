@@ -46,14 +46,18 @@
 - Spring Bootの最小起動確認は完了済み
 - Spring Boot起動時にMySQL 8系へ接続できることを確認済み
 - Flyway初期マイグレーション作成に着手済み
-- `V1__create_master_tables.sql` は作成・レビュー中
+- `V1__create_master_tables.sql` は作成・レビュー済み
 - `V2__create_users_table.sql` は作成・レビュー済み
 - Flywayマイグレーション設計書のV2ファイル名例は、実ファイル名に合わせて修正済み
+- Spring Boot起動時、MySQL接続は成功しているが、Flywayマイグレーションは未適用
+- MySQL上で `SHOW TABLES;` を実行し、テーブルが未作成であることを確認済み
+- `target/classes/db/migration/` にV1/V2 SQLファイルがコピーされていることを確認済み
+- 現在の原因候補は、Spring Boot起動時にFlywayを自動実行するための `spring-boot-starter-flyway` 依存不足
 
 ## 直近レビューでの残修正候補
 
-- `V1__create_master_tables.sql` の各テーブルで、`code` 行から `UNIQUE` を削除する
-- `V1__create_master_tables.sql` の各テーブルで、`PRIMARY KEY (`id`)` の後ろにカンマを追加する
+- `pom.xml` に `spring-boot-starter-flyway` を追加する
+- 依存追加後、Spring Bootを再起動してFlywayログが出るか確認する
 
 ## 継続運用ルール
 
@@ -62,8 +66,9 @@
 
 ## 次回タスク
 
-- `V1__create_master_tables.sql` の残修正を行う
-- 修正後、`V1__create_master_tables.sql` を再レビューする
-- 問題なければSpring Bootを起動し、FlywayでV1/V2が適用されることを確認する
-- MySQL上に固定マスタテーブルと `users` テーブルが作成されたことを確認する
+- `pom.xml` に `spring-boot-starter-flyway` を追加する
+- `pom.xml` をレビューする
+- Spring Bootを再起動し、FlywayがV1/V2を適用するか確認する
+- MySQL上で `SHOW TABLES;` を実行し、固定マスタテーブルと `users` テーブルが作成されたことを確認する
+- `flyway_schema_history` の内容を確認する
 - 次のマイグレーションとしてプロジェクト系テーブル作成へ進む
