@@ -49,15 +49,15 @@
 - `V1__create_master_tables.sql` は作成・レビュー済み
 - `V2__create_users_table.sql` は作成・レビュー済み
 - Flywayマイグレーション設計書のV2ファイル名例は、実ファイル名に合わせて修正済み
-- Spring Boot起動時、MySQL接続は成功しているが、Flywayマイグレーションは未適用
-- MySQL上で `SHOW TABLES;` を実行し、テーブルが未作成であることを確認済み
-- `target/classes/db/migration/` にV1/V2 SQLファイルがコピーされていることを確認済み
-- 現在の原因候補は、Spring Boot起動時にFlywayを自動実行するための `spring-boot-starter-flyway` 依存不足
+- `spring-boot-starter-flyway` 追加後、FlywayがSpring Boot起動時に動作することを確認済み
+- FlywayによりV1/V2が適用され、固定マスタテーブルと `users` テーブルが作成済み
+- `flyway_schema_history` に version 1 と version 2 の成功履歴が記録済み
+- `V3__create_project_tables.sql` は作成・レビュー済み
+- 現在はV3のFlyway追加適用確認待ち
 
 ## 直近レビューでの残修正候補
 
-- `pom.xml` に `spring-boot-starter-flyway` を追加する
-- 依存追加後、Spring Bootを再起動してFlywayログが出るか確認する
+- なし
 
 ## 継続運用ルール
 
@@ -66,9 +66,7 @@
 
 ## 次回タスク
 
-- `pom.xml` に `spring-boot-starter-flyway` を追加する
-- `pom.xml` をレビューする
-- Spring Bootを再起動し、FlywayがV1/V2を適用するか確認する
-- MySQL上で `SHOW TABLES;` を実行し、固定マスタテーブルと `users` テーブルが作成されたことを確認する
-- `flyway_schema_history` の内容を確認する
-- 次のマイグレーションとしてプロジェクト系テーブル作成へ進む
+- Spring Bootを再起動し、FlywayがV3を追加適用するか確認する
+- MySQL上で `SHOW TABLES;` を実行し、`projects` と `project_members` が作成されたことを確認する
+- `flyway_schema_history` に version 3 が追加されたことを確認する
+- 問題なければ次のマイグレーションとして `V4__create_task_tables.sql` 作成へ進む

@@ -75,6 +75,8 @@
 | Schema | データや文書がどのような構造・型・制約を持つかを定義するルール | DBスキーマ、JSON Schema、XML Schemaなどで使われる考え方 |
 | XML Schema | XML文書にどのタグや属性を書けるか、どの順序・型にすべきかを定義するルール | `pom.xml` の構造がMaven POMとして正しいかを示すために使われる |
 | jar | Java Archiveの略で、Javaアプリやライブラリをまとめたファイル形式 | Spring Bootアプリをビルドすると実行可能jarとして作成できる |
+| インデックス | DB検索を速くするために、特定カラムの値を探しやすくする仕組み | email検索、project_id検索、deleted_at除外など、よく検索条件に使うカラムで検討する |
+| 複合インデックス | 複数カラムの組み合わせに対して作るインデックス | `project_id + user_id` のような組み合わせ検索や一意制約で使う |
 | Docker | アプリやミドルウェアをコンテナとして動かすための仕組み | 開発環境でMySQLとMailpitを動かす |
 | Docker Engine | Dockerコンテナを実際に作成・起動・停止するための中核機能 | Docker Desktopの内部で動作する |
 | Docker Desktop | WindowsやMacでDockerを使いやすくするためのデスクトップアプリ | 学習・ローカル開発では通常これをインストールして使用する |

@@ -658,3 +658,51 @@
 - MySQL上で `SHOW TABLES;` を実行し、固定マスタテーブルと `users` テーブルが作成されたことを確認する
 - `flyway_schema_history` の内容を確認する
 - 次のマイグレーションとしてプロジェクト系テーブル作成へ進む
+
+---
+
+## 2026-07-11 終了報告
+
+### 作業内容
+
+- 作業開始時に各ファイルを読み込み、現在の作業状況を復元した
+- `pom.xml` に `spring-boot-starter-flyway` が追加されていることを確認した
+- Spring Boot起動時にFlyway関連ログが出たこと、MySQL上に対象テーブルが作成されたことを確認した
+- `flyway_schema_history` に version 1 `create master tables` と version 2 `create users table` が success 1 で記録されていることを確認した
+- `V3__create_project_tables.sql` をレビューした
+- 初回レビューで、`AUTO_INCREMENT` のスペル、`description` のスペル、`;` の不足、参照先テーブル名、複合一意制約の考え方を指摘した
+- インデックスの概念、メリット、注意点、一意制約との関係を整理した
+- `docs/context/glossary/glossary.md` に `インデックス` と `複合インデックス` を追記した
+- 修正後の `V3__create_project_tables.sql` を再レビューし、次にFlywayでV3を追加適用してよい状態であることを確認した
+- `docs/context/current_tasks.md` を、V3適用確認待ちの状態に更新した
+
+### 現在の状況
+
+- Spring Boot起動クラスは作成・レビュー済み
+- Spring Bootの最小起動確認は完了
+- MySQL 8系への接続確認は完了
+- `spring-boot-starter-flyway` 追加後、FlywayがSpring Boot起動時に動作することを確認済み
+- FlywayによりV1/V2が適用され、固定マスタテーブルと `users` テーブルが作成済み
+- `flyway_schema_history` に version 1 と version 2 の成功履歴が記録済み
+- `V3__create_project_tables.sql` は作成・レビュー済み
+- 現在はV3のFlyway追加適用確認待ち
+
+### 学習内容
+
+- Flywayの成功確認は、起動ログだけでなく `flyway_schema_history` でも確認する
+- `success = 1` は該当マイグレーションが成功したことを表す
+- 複合一意制約では、複数カラムを個別に指定する
+- `project_id` 単体、`user_id` 単体を一意にすると、1プロジェクト1人、1ユーザー1プロジェクトしか許可されない誤った制約になる
+- インデックスは検索を速くするためのDB上の索引であり、付けすぎると更新コストや容量が増える
+- 主キーには通常インデックスがあるため、同じカラムに不要な追加インデックスを作らない
+
+### 直近レビューでの残修正候補
+
+- なし
+
+### 次回タスク
+
+- Spring Bootを再起動し、FlywayがV3を追加適用するか確認する
+- MySQL上で `SHOW TABLES;` を実行し、`projects` と `project_members` が作成されたことを確認する
+- `flyway_schema_history` に version 3 が追加されたことを確認する
+- 問題なければ次のマイグレーションとして `V4__create_task_tables.sql` 作成へ進む
