@@ -1,0 +1,10 @@
+CREATE INDEX `idx_users_deleted_at` ON `users` (`deleted_at`);
+CREATE INDEX `idx_projects_created_by` ON `projects` (`created_by`);
+CREATE INDEX `idx_projects_deleted_at` ON `projects` (`deleted_at`);
+CREATE INDEX `idx_project_members_project_id` ON `project_members` (`project_id`);
+CREATE INDEX `idx_project_members_user_id` ON `project_members` (`user_id`);
+CREATE INDEX `idx_project_members_deleted_at` ON `project_members` (`deleted_at`);
+CREATE INDEX `idx_tasks_project_id` ON `tasks` (`project_id`);
+CREATE INDEX `idx_tasks_status_id` ON `tasks` (`status_id`);
+CREATE INDEX `idx_tasks_assignee_id` ON `tasks` (`assignee_id`);
+CREATE INDEX `idx_tasks_deleted_at` ON `tasks` (`deleted_at`);
