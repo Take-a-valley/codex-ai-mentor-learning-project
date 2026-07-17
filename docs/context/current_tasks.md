@@ -52,8 +52,14 @@
 - `spring-boot-starter-flyway` 追加後、FlywayがSpring Boot起動時に動作することを確認済み
 - FlywayによりV1/V2が適用され、固定マスタテーブルと `users` テーブルが作成済み
 - `flyway_schema_history` に version 1 と version 2 の成功履歴が記録済み
-- `V3__create_project_tables.sql` は作成・レビュー済み
-- 現在はV3のFlyway追加適用確認待ち
+- `V3__create_project_tables.sql` は作成・レビュー・Flyway適用確認済み
+- `V4__create_task_tables.sql` は作成・レビュー・Flyway適用確認済み
+- `V5__create_indexes.sql` は作成・レビュー・Flyway適用確認済み
+- `V6__create_task_other_tables.sql` は作成・レビュー・Flyway適用確認済み
+- `V7__create_history_tables.sql` は作成・レビュー・Flyway適用確認済み
+- `flyway_schema_history` に version 1 から version 7 までの成功履歴が記録済み
+- MySQL上で `task_comments`、`attachments`、`project_invitations`、`password_reset_tokens` の作成確認済み
+- Flywayマイグレーション設計書のファイル命名方針は、V5以降の実装順に合わせて更新済み
 
 ## 直近レビューでの残修正候補
 
@@ -66,7 +72,7 @@
 
 ## 次回タスク
 
-- Spring Bootを再起動し、FlywayがV3を追加適用するか確認する
-- MySQL上で `SHOW TABLES;` を実行し、`projects` と `project_members` が作成されたことを確認する
-- `flyway_schema_history` に version 3 が追加されたことを確認する
-- 問題なければ次のマイグレーションとして `V4__create_task_tables.sql` 作成へ進む
+- Gitで `Flywayマイグレーション設計書.md`、`V6__create_task_other_tables.sql`、`V7__create_history_tables.sql`、本コンテキスト更新を確認する
+- 問題なければV6/V7関連の変更をコミットする
+- 次のマイグレーションとして `V8__insert_master_data.sql` の作成に進む
+- V8では固定マスタ初期データの投入内容を、設計書と既存マスタテーブル定義に基づいて確認する

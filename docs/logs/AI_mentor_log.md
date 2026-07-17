@@ -706,3 +706,44 @@
 - MySQL上で `SHOW TABLES;` を実行し、`projects` と `project_members` が作成されたことを確認する
 - `flyway_schema_history` に version 3 が追加されたことを確認する
 - 問題なければ次のマイグレーションとして `V4__create_task_tables.sql` 作成へ進む
+
+---
+
+## 2026-07-17 作業ログ
+
+### 作業内容
+
+- 作業開始時にGit状態、直近コミット、マイグレーションファイル、設計書、コンテキストを確認した
+- `V4__create_task_tables.sql` と `V5__create_indexes.sql` がコミット済みであることを確認した
+- Flywayマイグレーション設計書のファイル命名方針が、V5以降の実装順に合わせて更新されていることを確認した
+- `V6__create_task_other_tables.sql` をレビューした
+- `V7__create_history_tables.sql` をレビューした
+- V6/V7の初回レビューで、ファイル名、末尾カンマ、`LONGBLOB` のスペル、token用重複インデックス、`attachments.task_id` の設計書表記を確認した
+- 修正後のV6/V7を再レビューし、重大なSQL修正がないことを確認した
+- ユーザーによりSpring Boot起動時のFlyway適用、テーブル作成確認、Git状態確認が完了した
+- `docs/context/current_tasks.md` を、V7適用確認後の状態に更新した
+
+### 現在の状況
+
+- Gitの作業ツリーには、Flywayマイグレーション設計書の変更とV6/V7の新規ファイルが残っている
+- Flywayは version 1 から version 7 まで適用確認済み
+- MySQL上に `task_comments`、`attachments`、`project_invitations`、`password_reset_tokens` が作成済み
+- 次のマイグレーション候補は `V8__insert_master_data.sql`
+
+### 学習内容
+
+- Flywayでは一度適用したマイグレーション番号を変更せず、次のバージョンとして追加する
+- `CREATE TABLE` の最後の制約定義には末尾カンマを付けない
+- `LONGBLOB` はMySQLで大きなバイナリデータを保存する型として使える
+- UNIQUE制約があるカラムには、通常インデックスを重複して追加しない方針を基本とする
+- 設計書の命名方針と実ファイル名は、Flyway適用前に必ず揃える
+
+### 直近レビューでの残修正候補
+
+- なし
+
+### 次回タスク
+
+- `Flywayマイグレーション設計書.md`、`V6__create_task_other_tables.sql`、`V7__create_history_tables.sql`、`docs/context/current_tasks.md`、`docs/logs/AI_mentor_log.md` の差分を確認する
+- 問題なければV6/V7関連の変更をコミットする
+- 次のマイグレーションとして `V8__insert_master_data.sql` の作成へ進む
