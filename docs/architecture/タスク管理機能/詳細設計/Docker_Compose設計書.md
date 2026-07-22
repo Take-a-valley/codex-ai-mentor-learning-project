@@ -308,7 +308,7 @@ DBを初期化したい場合は、MySQLのvolumeを削除する。
 
 volume削除後にDocker Composeを再起動し、Spring Bootを起動すると、Flywayによりテーブル定義と固定マスタが再作成される。
 
-開発用初期管理者データの投入方法は、Flyway設計書の方針に従う。
+開発用初期管理者データを投入する場合は、Spring Bootをdev profileで起動し、db/dev-migrationを追加で読み込む。
 
 ## 21. 起動順序方針
 

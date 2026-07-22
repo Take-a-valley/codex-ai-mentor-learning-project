@@ -747,3 +747,118 @@
 - `Flywayマイグレーション設計書.md`、`V6__create_task_other_tables.sql`、`V7__create_history_tables.sql`、`docs/context/current_tasks.md`、`docs/logs/AI_mentor_log.md` の差分を確認する
 - 問題なければV6/V7関連の変更をコミットする
 - 次のマイグレーションとして `V8__insert_master_data.sql` の作成へ進む
+
+---
+
+## 2026-07-17 終了報告
+
+### 作業内容
+
+- `V8__insert_master_data.sql` をレビューした
+- 初回レビューで、`INSERT` のカラム指定不足、列順不一致、`TODO` のcode、表示名の設計書不一致を確認した
+- 修正レビューで、`INSERT INTO テーブル名 (カラム名) VALUES (...)` の形式になっていることを確認した
+- 固定マスタ初期データが設計書の値と一致していることを確認した
+- ユーザーによりFlyway V8の適用、固定マスタデータ確認、コミット、プッシュまで完了した
+- Gitの直近コミットが `d90baa8 Added the loading of static master data` であることを確認した
+- `docs/context/current_tasks.md` をV8適用確認後の状態に更新した
+
+### 現在の状況
+
+- Git作業ツリーはクリーン
+- Flywayは version 1 から version 8 まで適用確認済み
+- 固定マスタ初期データ投入用の `V8__insert_master_data.sql` はコミット・プッシュ済み
+- PowerShell上のMySQL表示で日本語名が `?` と表示されたため、DB保存値自体の文字化け有無は次回確認する
+
+### 学習内容
+
+- `INSERT INTO ... VALUES ...` では、カラム名を省略するとテーブル定義の全カラム順に値が対応する
+- AUTO_INCREMENTのidは固定マスタ投入時に直接指定せず、DB採番に任せる方針が安全
+- 固定マスタは実装上の判定に使う `code` と、画面表示に使う `name` を分けて扱う
+- 日本語データ投入後に `?` 表示が出た場合、表示だけの問題か保存値の問題かを `HEX(name)` で切り分ける
+
+### 直近レビューでの残修正候補
+
+- なし
+
+### 次回タスク
+
+- `HEX(name)` で固定マスタの日本語表示名がDB上で正しく保存されているか確認する
+- 文字化けがDB保存値の問題だった場合は、SQLファイルの文字コード、接続文字セット、DB再作成方針を確認する
+- 問題なければ `V9__insert_dev_initial_admin.sql` の作成準備に進む
+
+---
+
+## 2026-07-22 作業ログ
+
+### 作業内容
+
+- 作業開始時にGit状態、直近コミット、ファイル一覧、`current_tasks.md`、V8、V9関連設計を確認した
+- Gitの最新コミットが `d90baa8 Added the loading of static master data` であることを確認した
+- 未コミット差分が `docs/context/current_tasks.md` と `docs/logs/AI_mentor_log.md` の進捗更新のみであることを確認した
+- 固定マスタの日本語表示名について、`HEX(name)` がUTF-8バイト列であることをユーザーが確認した
+- PowerShell上で `?` と表示される件は、DB保存値ではなく表示側の文字化けとして扱う方針にした
+- `V9__insert_dev_initial_admin.sql` は開発用マイグレーションとして扱う方針を確認した
+- `docs/context/current_tasks.md` を、文字化け確認完了とV9方針確定後の状態に更新した
+
+### 現在の状況
+
+- Flywayは version 1 から version 8 まで適用確認済み
+- V8の固定マスタ日本語表示名はDB上ではUTF-8として保存されている
+- 次の作業はV9開発用初期管理者データの投入方法整理
+
+### 学習内容
+
+- MySQL表示で `?` が出ても、`HEX(name)` を確認するとDB保存値の実体を切り分けられる
+- `E3...` や `E4...` で始まるHEX値は、日本語がUTF-8として保存されている可能性を示す
+- 開発用初期管理者のような環境依存データは、本番向け共通マイグレーションとは分けて扱う必要がある
+- 初期パスワードは平文で保存せず、ハッシュ化済みの値として登録する
+
+### 直近レビューでの残修正候補
+
+- なし
+
+### 次回タスク
+
+- V9を通常の `db/migration` 配下に置くか、開発専用の配置・実行方法に分けるかを設計方針に沿って確認する
+- `V9__insert_dev_initial_admin.sql` の投入内容をレビューする
+- 初期管理者のメールアドレス、表示名、初期パスワードを設計書に固定値として残さない方法を確認する
+
+---
+
+## 2026-07-22 作業ログ 2
+
+### 作業内容
+
+- 開発用初期管理者データを通常migrationから分離するための手順を整理した
+- `V9__insert_dev_initial_admin.sql` を `db/dev-migration` 配下へ分離する方針を確認した
+- `application.yml` は共通migrationのみ、`application-dev.yml` は共通migrationと開発専用migrationを読み込む方針をレビューした
+- dev profile起動時のMavenオプションはPowerShellではクォートして渡す必要があることを確認した
+- ユーザーによりdev profileで正常起動ログが確認された
+- 今後、Gitのコミット・プッシュはユーザー指示時のみタスクとして扱う方針を確認した
+- `docs/context/decisions.md` にGit運用方針を追記した
+- `docs/context/current_tasks.md` にGit運用方針と次回タスクを反映した
+
+### 現在の状況
+
+- 通常起動では `db/migration` のみを読み込む方針
+- dev profile起動では `db/migration` と `db/dev-migration` を読み込む方針
+- V9開発用初期管理者データはdev profileで適用確認済み
+- 次の作業はDB上で初期管理者ユーザーとSYSTEM_ADMINロール紐づきを確認すること
+
+### 学習内容
+
+- Spring Bootでは `application.yml` の共通設定に対し、`application-dev.yml` でdev profile用の差分設定を適用できる
+- PowerShellでは `-Dspring-boot.run.profiles=dev` のようなMavenプロパティをクォートして渡すと安全
+- コミットはファイル単位ではなく意味のある作業単位で行う
+- 本プロジェクトでは、コミット・プッシュの実施タイミングはユーザーが指示する
+
+### 直近レビューでの残修正候補
+
+- `application-dev.yml` は差分設定だけに整理すると保守しやすい
+- `Flywayマイグレーション設計書.md` のV9説明は表外補足に分けると読みやすい
+
+### 次回タスク
+
+- dev profileでV9開発用初期管理者データが適用されたことをDB上で確認する
+- `users` と `system_roles` をJOINし、初期管理者の `role_code` が `SYSTEM_ADMIN` であることを確認する
+- V9適用確認後、固定マスタ系Entity実装準備へ進む

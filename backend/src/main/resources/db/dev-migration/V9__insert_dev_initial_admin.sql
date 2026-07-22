@@ -1,0 +1,1 @@
+INSERT INTO users (`email`, `password_hash`, `display_name`, `system_role_id`) VALUES ('admin@test.com',  '$2a$08$ea.zrR/JzTNf19wWSuZnd.F8g88PGLTxYtb5QsYn25swdsYNqEWrK',  '開発用システム管理者', (SELECT id FROM system_roles WHERE code = 'SYSTEM_ADMIN'));

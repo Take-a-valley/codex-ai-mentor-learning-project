@@ -57,9 +57,16 @@
 - `V5__create_indexes.sql` は作成・レビュー・Flyway適用確認済み
 - `V6__create_task_other_tables.sql` は作成・レビュー・Flyway適用確認済み
 - `V7__create_history_tables.sql` は作成・レビュー・Flyway適用確認済み
+- `V8__insert_master_data.sql` は作成・レビュー・Flyway適用確認済み
 - `flyway_schema_history` に version 1 から version 7 までの成功履歴が記録済み
+- `flyway_schema_history` に version 8 の成功履歴が記録済み
 - MySQL上で `task_comments`、`attachments`、`project_invitations`、`password_reset_tokens` の作成確認済み
+- MySQL上で固定マスタ初期データの投入確認済み
+- 固定マスタの日本語表示名は、`HEX(name)` によりUTF-8バイト列で保存されていることを確認済み
+- PowerShell上で `?` と表示される件は、DB保存値ではなく表示側の文字化けとして扱う
 - Flywayマイグレーション設計書のファイル命名方針は、V5以降の実装順に合わせて更新済み
+- `V9__insert_dev_initial_admin.sql` は開発用マイグレーションとして扱う方針
+- Gitのコミット・プッシュはユーザー指示時に行う方針
 
 ## 直近レビューでの残修正候補
 
@@ -69,10 +76,13 @@
 
 - ユーザーが解説を希望した用語、または学習上重要な用語は `docs/context/glossary/glossary.md` または `docs/context/glossary/` 配下の学習用Markdownに追記する
 - 用語集追記時は、意味と本プロジェクトでの扱い方を簡潔に記録する
+- Gitのコミット・プッシュは、ユーザーから明示指示があった場合のみタスクとして扱う
+- 通常の次回タスクや作業手順には、Git関連作業を含めない
+- 作業終了前にユーザーがコミット・プッシュを指示した場合、その時点で差分確認、ステージング、コミット、プッシュの手順を提示する
 
 ## 次回タスク
 
-- Gitで `Flywayマイグレーション設計書.md`、`V6__create_task_other_tables.sql`、`V7__create_history_tables.sql`、本コンテキスト更新を確認する
-- 問題なければV6/V7関連の変更をコミットする
-- 次のマイグレーションとして `V8__insert_master_data.sql` の作成に進む
-- V8では固定マスタ初期データの投入内容を、設計書と既存マスタテーブル定義に基づいて確認する
+- dev profileでV9開発用初期管理者データが適用されたことをDB上で確認する
+- `users` と `system_roles` をJOINし、初期管理者の `role_code` が `SYSTEM_ADMIN` であることを確認する
+- `display_name` の日本語表示がPowerShellで文字化けする場合は、`HEX(display_name)` でDB保存値を確認する
+- V9適用確認後、次の実装タスクとして固定マスタ系Entity実装準備に進む
