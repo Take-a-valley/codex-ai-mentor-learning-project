@@ -1,5 +1,24 @@
 # AI Mentor Log
 
+## 2026-10-28 終了報告（前日からの継続作業）
+
+- ユーザーの明示依頼により、UserServiceTestのUT-USER-001〜004に対応したコードをチャットに提示した。ファイル編集は禁止されたため、AIはソースを変更していない。
+- BeforeEach、Mockitoのmock・when・verify、assertAll・assertThrows、ReflectionTestUtils、固定日時の役割と、Mavenによる対象テスト実行方法を案内した。DB・Docker・アプリ起動を必要としないService単体テストとして扱った。
+- 終了時の実ファイルを確認。ユーザーがUT-USER-001の準備とService呼び出しまで記述済み。DTOのアサーションとRepository検索回数検証は未記述。他3ケースは未作成。
+- 残課題はReflectionTestUtilsのcreateAtを実フィールド名createdAtへ合わせること、不要importの整理、検証の追加。フィールド名不一致は実行時に失敗するため次回最初に対応する。
+- User.javaはコメント追加とコンストラクタ整形の変更を確認。今回確認した差分に機能変更はない。
+- ブランチはfeature/user-service-tests、HEADはf1cc92c。ソースと運用文書に未コミット変更あり。コミット・push・マージは実施していない。
+- 今回コンパイル・JUnit実行は未実施。コード提示と実装・実行結果を区別し、テスト成功は記録していない。
+- 次回はUT-USER-001の修正・検証追加・実行から再開し、正常系確認後に不在例外とメール検索へ進む。
+
+## 2026-10-27 作業用ブランチ運用への変更
+
+- ユーザーの決定により、今後は作業目的ごとのブランチで開発し、対象作業の実装・レビュー・必要なテスト完了後にmainへマージする。個人開発のためPRは必須としない。
+- コミット・pushのタイミングはユーザーが指示する従来方針を維持し、マージもユーザー判断とする。AIはGitの変更操作を実行していない。
+- PROMPT、実装計画書、decisions、current_tasksに方針を反映した。過去のmain履歴は変更しない。
+- 確認時はfeature/user-service-tests上で作業ツリーはクリーン。HEADはf1cc92cで、前回の作成途中テスト・ドキュメントはコミット済み。リモートへのpush状況は確認していない。
+- 現在の開発タスクはUserServiceTestのUT-USER-001の作成継続。今回テストの実装・実行は行っていない。
+
 ## 2026-10-27 作業終了・初めてのService単体テスト作成
 
 - JUnit・Mockitoは常駐アプリではなくテスト用ライブラリであると説明し、既存pom.xmlのspring-boot-starter-testを確認した。Mavenでの依存関係確認と実行コマンドを案内したが、取得・実行の完了報告は未確認。

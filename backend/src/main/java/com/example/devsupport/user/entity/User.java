@@ -17,7 +17,7 @@ import com.example.devsupport.master.entity.SystemRole;
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // IDの自動生成戦略をIDENTITYに設定
     private Long id;
 
     @Column(nullable = false, unique = true, length = 255)
@@ -46,8 +46,10 @@ public class User {
     @JoinColumn(name = "system_role_id", nullable = false)
     private SystemRole systemRole;
 
-    protected User() {}
+    protected User() {
+    }
 
+    // コンストラクタを追加して、Userオブジェクトを作成する際に必要なフィールドを初期化できるようにする
     public User(String email, String passwordHash, String displayName, SystemRole systemRole) {
         this.email = email;
         this.passwordHash = passwordHash;
@@ -55,6 +57,7 @@ public class User {
         this.systemRole = systemRole;
     }
 
+    // ゲッターを追加して、各フィールドの値を取得できるようにする
     public Long getId() {
         return id;
     }
