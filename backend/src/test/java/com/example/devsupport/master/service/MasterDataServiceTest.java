@@ -2,6 +2,8 @@ package com.example.devsupport.master.service;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -107,6 +109,35 @@ class MasterDataServiceTest {
 
         // 各ロール(ステータス)のID昇順検索(sortOrder昇順検索)が1回呼ばれたことを検証する
         // verifyは回数を省略すると1回を検証する
+        verify(projectRoleRepository).findAllByOrderByIdAsc();
+        verify(taskStatusRepository).findAllByOrderBySortOrderAsc();
+        verify(taskPriorityRepository).findAllByOrderBySortOrderAsc();
+    }
+
+    @Test
+    @DisplayName("UT-MASTER-002: 固定マスタ0件")
+    // 固定マスタが0件の場合に、空リストを含むレスポンスを返すことを検証するテストメソッド
+    void getMasterDataReturnsEmptyListMasterData() {
+        // 各ロール(ステータス)の要素を持たない空リストを返すよう設定する
+        when(projectRoleRepository.findAllByOrderByIdAsc())
+                .thenReturn(List.of());
+        when(taskStatusRepository.findAllByOrderBySortOrderAsc())
+                .thenReturn(List.of());
+        when(taskPriorityRepository.findAllByOrderBySortOrderAsc())
+                .thenReturn(List.of());
+
+        MasterDataResponse actual = masterDataService.getMasterData();
+
+        assertNotNull(actual); // レスポンス本体がnullではないことを検証する
+
+        assertAll(
+                () -> assertNotNull(actual.projectRoles()), // プロジェクトロールのリストがnullではないことを検証する
+                () -> assertTrue(actual.projectRoles().isEmpty()), // プロジェクトロールのリストが要素を持たないことを検証する
+                () -> assertNotNull(actual.taskStatuses()),
+                () -> assertTrue(actual.taskStatuses().isEmpty()),
+                () -> assertNotNull(actual.taskPriorities()),
+                () -> assertTrue(actual.taskPriorities().isEmpty()));
+
         verify(projectRoleRepository).findAllByOrderByIdAsc();
         verify(taskStatusRepository).findAllByOrderBySortOrderAsc();
         verify(taskPriorityRepository).findAllByOrderBySortOrderAsc();

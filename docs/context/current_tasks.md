@@ -1,5 +1,29 @@
 # Current Tasks
 
+## 2026-10-29 最終終了時点（以下の過去記録より優先）
+
+- UserServiceTestの4件とMasterDataServiceTestの2件は実装・レビュー済み。ユーザー提示の全体ログで6件成功、Failures・Errors・Skippedは0、BUILD SUCCESSを確認。終了日時は2026-10-29T16:20:06+09:00。AI再実行は未実施。
+- 単体テスト仕様書に結果と対象作業状態を記録済み。実装計画書4章を機能単位開発へ更新済みであり、過去の「計画書未反映」は解消している。
+- 次回の最初の実装はauth/dto/response/CurrentUserResponse.java。終了確認時はファイル未作成。項目はuserId:Long、email:String、displayName:String、systemRole:String。DTO設計書8.4・API設計書7.4に従いrecordで記述する。
+- 以後、認証DTOと認証情報の本人ID受け渡し、Security・セッション・CSRF・401/403の契約を確認し、認証機能を画面まで接続する。ソース実装や接続確認が済んだとは扱わない。
+- ブランチfeature/user-service-tests、HEAD 27a575b。MasterDataServiceTest、単体テスト仕様書、実装計画書、current_tasks、AI_mentor_logに未コミット変更あり。終了時にコミット・push・マージは行っていない。
+
+## 2026-10-29 認証接続単位の準備（最新）
+
+- 実装計画書4章を機能単位開発へ更新。後続の層別章は確認観点の分類として扱う。
+- 次のユーザー実装対象はbackend/src/main/java/com/example/devsupport/auth/dto/response/CurrentUserResponse.java。既存record DTOに合わせ、userId:Long、email:String、displayName:String、systemRole:Stringのみを扱う。DTO設計書8.4、API設計書7.4に従う。
+- 続いてLoginUserResponse・LoginResponse・LoginRequest・CsrfTokenResponseの既存契約を確認し、認証基盤・AuthService・HTTP・画面接続へ進む。ログインと本人情報のDTOを安易に統合しない。
+- 現状SecurityConfigはmaster-dataの開発用permitAllのみ。frontendはpackage.jsonのみで基盤未実装。DTO作成だけでは認証は動作しない。
+- Security実装前に本人IDを保持する認証情報、JSONログインの受付、セッション保存、CSRF取得・再取得、401/403応答、フロントとの通信構成を設計書と照合して具体化する。未確定部分を推測で実装しない。
+
+## 2026-10-29 Service単体テスト全6件成功（最新）
+
+- UT-USER-001〜004、UT-MASTER-001〜002は作成・レビュー済み。ユーザー提示ログで全6件成功、失敗・エラー・スキップ0、BUILD SUCCESSを確認した。過去の未作成・未実施の記録より本項を優先する。
+- コマンドはmvn -f backend/pom.xml test、終了日時2026-10-29T16:20:06+09:00。単体テスト仕様書5.1へ証跡を記録済み。AI再実行は未実施。
+- feature/user-service-tests、HEAD 27a575b。MasterDataServiceTestの未コミット変更を含む状態。今回ソース編集・Git変更操作は未実施。
+- 次は機能単位開発方針と実装計画の整合確認、認証API・DTO・Service・Security・フロント基盤の設計照合を行い、ログイン・本人情報取得・ログアウトの実装順序と完了条件を具体化する。設計書本文の更新は別途必要。
+- 実DB・HTTP・認証・画面は今回未検証。関連実装変更後も全6ケースを再実行する。
+
 ## 2026-10-29 終了時点（最新）
 
 - UT-USER-001〜004は実装・レビュー済み、4件成功はユーザー報告。UT-MASTER-001も実装・レビュー済み、1件成功はユーザー報告。AIの再実行と、最後のコメント追加後の実行は未確認。
