@@ -1,5 +1,65 @@
 # Current Tasks
 
+## 2026-10-29 最終終了時点（以下の過去記録より優先）
+
+- UserServiceTestの4件とMasterDataServiceTestの2件は実装・レビュー済み。ユーザー提示の全体ログで6件成功、Failures・Errors・Skippedは0、BUILD SUCCESSを確認。終了日時は2026-10-29T16:20:06+09:00。AI再実行は未実施。
+- 単体テスト仕様書に結果と対象作業状態を記録済み。実装計画書4章を機能単位開発へ更新済みであり、過去の「計画書未反映」は解消している。
+- 次回の最初の実装はauth/dto/response/CurrentUserResponse.java。終了確認時はファイル未作成。項目はuserId:Long、email:String、displayName:String、systemRole:String。DTO設計書8.4・API設計書7.4に従いrecordで記述する。
+- 以後、認証DTOと認証情報の本人ID受け渡し、Security・セッション・CSRF・401/403の契約を確認し、認証機能を画面まで接続する。ソース実装や接続確認が済んだとは扱わない。
+- ブランチfeature/user-service-tests、HEAD 27a575b。MasterDataServiceTest、単体テスト仕様書、実装計画書、current_tasks、AI_mentor_logに未コミット変更あり。終了時にコミット・push・マージは行っていない。
+
+## 2026-10-29 認証接続単位の準備（最新）
+
+- 実装計画書4章を機能単位開発へ更新。後続の層別章は確認観点の分類として扱う。
+- 次のユーザー実装対象はbackend/src/main/java/com/example/devsupport/auth/dto/response/CurrentUserResponse.java。既存record DTOに合わせ、userId:Long、email:String、displayName:String、systemRole:Stringのみを扱う。DTO設計書8.4、API設計書7.4に従う。
+- 続いてLoginUserResponse・LoginResponse・LoginRequest・CsrfTokenResponseの既存契約を確認し、認証基盤・AuthService・HTTP・画面接続へ進む。ログインと本人情報のDTOを安易に統合しない。
+- 現状SecurityConfigはmaster-dataの開発用permitAllのみ。frontendはpackage.jsonのみで基盤未実装。DTO作成だけでは認証は動作しない。
+- Security実装前に本人IDを保持する認証情報、JSONログインの受付、セッション保存、CSRF取得・再取得、401/403応答、フロントとの通信構成を設計書と照合して具体化する。未確定部分を推測で実装しない。
+
+## 2026-10-29 Service単体テスト全6件成功（最新）
+
+- UT-USER-001〜004、UT-MASTER-001〜002は作成・レビュー済み。ユーザー提示ログで全6件成功、失敗・エラー・スキップ0、BUILD SUCCESSを確認した。過去の未作成・未実施の記録より本項を優先する。
+- コマンドはmvn -f backend/pom.xml test、終了日時2026-10-29T16:20:06+09:00。単体テスト仕様書5.1へ証跡を記録済み。AI再実行は未実施。
+- feature/user-service-tests、HEAD 27a575b。MasterDataServiceTestの未コミット変更を含む状態。今回ソース編集・Git変更操作は未実施。
+- 次は機能単位開発方針と実装計画の整合確認、認証API・DTO・Service・Security・フロント基盤の設計照合を行い、ログイン・本人情報取得・ログアウトの実装順序と完了条件を具体化する。設計書本文の更新は別途必要。
+- 実DB・HTTP・認証・画面は今回未検証。関連実装変更後も全6ケースを再実行する。
+
+## 2026-10-29 終了時点（最新）
+
+- UT-USER-001〜004は実装・レビュー済み、4件成功はユーザー報告。UT-MASTER-001も実装・レビュー済み、1件成功はユーザー報告。AIの再実行と、最後のコメント追加後の実行は未確認。
+- UT-MASTER-002は未作成。次回は3つのRepositoryが空リストを返す設定、レスポンス本体と各リストの非null・空確認、検索各1回の検証を記述する。
+- UT-MASTER-001のコメントは「List.ofは指定した引数順の変更不可リストを作成」「when/thenReturnは準備したリストを返す設定」として整理する。TaskStatus・TaskPriorityのスタブ説明を「ID順でリスト化」としない。今回ソースは変更していない。
+- 002のレビュー・実行後、mvn -f backend/pom.xml testで全6ケースを確認する。実行結果・日時・対象状態・証跡を単体テスト仕様書へ反映する必要がある。現時点で全6件成功とは扱わない。
+- 現在ブランチはfeature/user-service-tests、HEADはc9fe57b。UserServiceTestと文書に未コミット変更、MasterDataServiceTestは新規未追跡。コミット・push・マージはユーザー指示時のみ。
+- 機能単位の開発方針は合意済み。Serviceテスト完了後、実装計画の整合を確認し、認証・フロント基盤からログイン等を画面まで接続する。
+
+## 2026-10-29 開発方針・直近タスク（以下の過去記録より優先）
+
+- 今後は共通基盤を整えた後、操作を完結できる機能単位でバックエンド・画面・必要なテストを進める。各タスクにAPI契約・画面・権限・テスト・完了条件を含め、実装・レビュー直後の単体テスト、接続後の結合テストを継続する。
+- ユーザー報告によりUT-USER-001〜004の4件成功、UT-MASTER-001の1件成功を確認。AIによる再実行は未実施。過去の「UserServiceTest作成途中」は現在の状態ではない。
+- 直近はUT-MASTER-002の作成・レビュー・実行。その後、Service単体テスト6件をまとめて実行し、結果を記録する。UT-MASTER-002とまとめ実行の成功は未確認。
+- 次はフロントエンド共通基盤と認証・通信設計を確認し、ログイン・本人情報取得・ログアウトを画面まで接続する。その後プロジェクト一覧・選択等を操作単位で進める。着手時に既存設計と照合し具体化する。
+- 実装計画書等には旧来の層別順序が残るため整合更新が必要。今回の依頼ではログ・コンテキストのみ更新し、設計書本文は変更していない。
+
+## 2026-10-28 終了時点（以下の過去記録より優先）
+
+- 現在ブランチはfeature/user-service-tests、HEADはf1cc92c。User.java・UserServiceTest.javaと運用ドキュメントに未コミット変更あり。Gitの変更操作は未実施。
+- 明示依頼によりUserServiceTestの4ケース分のコードをチャットへ提示した。提示時にAIはソースを編集していない。コード提示は実装完了・検証成功を意味しない。
+- 実ファイルはUT-USER-001のみ作成中。BeforeEachによるモック・Service準備、SystemRole・User作成、固定日時、検索スタブ、Service呼び出しまで記述済み。DTOのアサーションと検索回数の検証は未記述。
+- 最優先修正：ReflectionTestUtilsのフィールド名がcreateAtになっているが、Userの実フィールドはcreatedAt。現在のまま実行するとフィールド設定で失敗する。
+- 不要import（Mock、Flyway内部Database、UserSummaryResponse、同一パッケージのUserService）とAssertionsのワイルドカードを整理する。
+- User.javaの変更はコメント追加・引数なしコンストラクタの整形。今回確認した差分に機能変更はない。
+- 次回はフィールド名修正、DTO全7項目の一致と検索1回の検証追加、UT-USER-001の実行・レビュー。その後UT-USER-002〜004、MasterDataServiceTestの順に進める。
+- コンパイル・テスト実行は今回未実施。仕様書の状態は引き続き作成中・未実施。
+
+## 2026-10-27 作業再開・Git運用変更（最新）
+
+- 開発は作業目的ごとの作業用ブランチで行い、対象作業の実装・レビュー・必要なテスト完了後にmainへマージする。PRは必須としない。
+- 確認時の現在ブランチはfeature/user-service-tests、作業ツリーはクリーン。ブランチ作成はユーザー側で実施済みの状態を確認したもので、AIは作成していない。リモートへのpush状況は未確認。
+- HEADはf1cc92c。前回のテスト方針・仕様書・ログ・作成途中のテストはコミット済みであり、下記の「終了時点」の未コミット記録は過去の状態。
+- 次の開発作業は引き続きUserServiceTestのUT-USER-001の準備部分の修正。単体テストは作成中・未実施で、mainへのマージ完了とは扱わない。
+- コミット・push・マージのタイミングはユーザーが判断する。AIは明示指示なくGitの変更操作を実行しない。
+
 ## 2026-10-27 終了時点（最新）
 
 - UserServiceTest.javaを作成中。UT-USER-001の準備段階で、Mockito.mockによるUserRepositoryの生成まで記述済み。
@@ -165,6 +225,7 @@
 - `/docs/architecture/` 配下の設計書Markdownは、ユーザーから明示指示がある場合に限り、AIが編集・新規作成できる
 - Gitのコミット・プッシュは、ユーザーから明示指示があった場合のみタスクとして扱う
 - 通常の次回タスクや作業手順には、Git関連作業を含めない
+- ただし作業開始時のブランチ確認は行い、開発は作業用ブランチ上で進める。対象作業完了後にmainへマージする方針は2026-10-27以降に適用する
 - 作業終了前にユーザーがコミット・プッシュを指示した場合、その時点で差分確認、ステージング、コミット、プッシュの手順を提示する
 
 ## 次回タスク
