@@ -1,5 +1,20 @@
 # Current Tasks
 
+## 2026-11-07 終了時点（最新）
+
+- LoginRequestTestの配置・packageをauthへ修正済み。UT-AUTH-DTO-001（正常入力）を作成・レビューし、ユーザーから1件実行・Failures 0・Errors 0・Skipped 0・BUILD SUCCESSの報告あり。AI再実行は未実施。
+- ValidatorFactoryをフィールドで保持し、BeforeEachでValidatorを取得、AfterEachでnull確認後closeする構成。入力値は仕様書と一致し、違反集合全体の出力をやめ固定メッセージを使用する。
+- 次回はUT-AUTH-DTO-002。email=null、passwordは正常値とし、emailのNotBlank違反とpasswordに違反がないことを確認する。プロパティパスと制約アノテーション型で判定し、集合の先頭や既定メッセージに依存しない。
+- UT-AUTH-DTO-002〜008は未作成・未実施。入力検証成功はログイン成功・HTTP400確認を意味しない。8ケース実装後は既存Serviceテストを含めて全体実行する。
+- ブランチfeature/authentication、HEAD 7eaa17e。認証DTOとLoginRequestTestは未追跡、設計書・進捗ログは変更あり。終了時にソース編集・テスト再実行・Git変更操作は行っていない。
+
+## 2026-11-06 認証DTO・入力検証仕様の追加（最新）
+
+- feature/authenticationで認証DTO5件を作成・レビュー済み。追加後の既存6件成功はユーザー報告。DTOの入力制約自体はまだ検証していない。
+- テストケース設計書6章へDTO入力検証観点、単体テスト仕様書へUT-AUTH-DTO-001〜008（正常、emailのnull・空文字・空白・不正形式、passwordのnull・空文字・空白）を追加した。全8ケース未実施。
+- 次はLoginRequestTestの正常入力ケースから作成する。現在は誤ったautrh配下の空クラスなので、配置とpackageをauthへ修正する。Validatorで直接検証し、Factoryを終了時にcloseする。
+- 異常系では違反数だけでなく項目・制約型を確認する。HTTP400・認証・CSRFは別途接続後の検証範囲。今回ソース・設定の編集、テスト・Git操作は未実施。
+
 ## 2026-10-29 最終終了時点（以下の過去記録より優先）
 
 - UserServiceTestの4件とMasterDataServiceTestの2件は実装・レビュー済み。ユーザー提示の全体ログで6件成功、Failures・Errors・Skippedは0、BUILD SUCCESSを確認。終了日時は2026-10-29T16:20:06+09:00。AI再実行は未実施。

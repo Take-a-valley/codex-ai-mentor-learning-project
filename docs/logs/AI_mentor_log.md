@@ -1,5 +1,22 @@
 # AI Mentor Log
 
+## 2026-11-07 終了報告・LoginRequest正常入力の単体テスト
+
+- LoginRequestTestのUT-AUTH-DTO-001をレビュー。Factoryの解放、仕様書どおりの入力値、秘密情報を不用意に出さない固定アサーションメッセージを案内し、修正を確認した。
+- Validator・ValidatorFactory・ConstraintViolation・Set、BeforeEachとAfterEach、validateとisEmptyの役割を行単位で解説した。Factory初期化失敗時に備えたnull確認後のcloseも実装済み。
+- ユーザーからTests run: 1、Failures: 0、Errors: 0、Skipped: 0、BUILD SUCCESSの報告あり。報告日2026-11-07、正確な実行時刻と実行コマンド全文は未提示。AIによる再実行は行っていない。
+- 単体テスト仕様書のUT-AUTH-DTO-001を作成済み・成功へ更新。残り7ケースは未作成・未実施。過去6件の成功と合算した7件一括実行成功とはしていない。
+- 次回はUT-AUTH-DTO-002のemail=nullを作成し、emailのNotBlank違反とpasswordの違反なしを確認する。プロパティ名と制約型を使用する方針を説明した。
+- ブランチfeature/authentication、HEAD 7eaa17e。認証DTO・入力テストは未追跡、設計書とログは変更あり。終了処理ではソース・設定の編集やGit変更操作は行っていない。
+
+## 2026-11-06 LoginRequest入力検証の設計追加
+
+- 認証DTO5件をレビューし、LoginRequestへNotBlank・Emailを付ける修正を確認。ユーザーから既存6件成功の報告あり。入力制約のテスト成功とは区別した。
+- DTO単体テストを既存仕様に定義する前に案内したため、ユーザーの確認を受け、設計追加を先行する方針へ整理した。
+- 明示依頼により、テストケース設計書6章へDTO入力検証観点を追加。単体テスト仕様書の対象・ファイル・ケース・手順・結果表を拡張し、UT-AUTH-DTO-001〜008を定義した。既存6件の証跡は変更していない。
+- Validatorによる直接検証、Factoryの解放、項目と制約型での判定、HTTP400との検証境界を記載。追加8ケースは未作成・未実施。
+- 現状LoginRequestTestはautrh配下の空クラスであり、配置・packageの修正が必要と確認。AIはソースや設定を変更せず、テスト・Git変更操作も行っていない。
+
 ## 2026-10-29 最終終了報告
 
 - 本日の開発到達点は、UserServiceの4ケースとMasterDataServiceの2ケースの単体テスト成功。ユーザー提示の全体ログを確認し、実行終了日時・コマンド・件数・対象状態を単体テスト仕様書へ記録した。AIによる再実行は未実施。
