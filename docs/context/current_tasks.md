@@ -1,5 +1,16 @@
 # Current Tasks
 
+## 2026-11-11 終了時点（以下の過去記録より優先）
+
+- 終了報告後の明示依頼により、単体テスト仕様書5章の全14ケースを最新成功結果へ更新し、5.4へ実行証跡・日時・作業状態・検証範囲を追記した。以下の「結果欄は未更新」は終了報告時点の記録で、本追記により解消済み。
+
+- LoginRequestTestのUT-AUTH-DTO-002〜008をユーザーが作成し、レビュー済み。emailのnull・空文字・半角空白3文字・不正形式、passwordのnull・空文字・半角空白3文字を検証する。001を含む全8件の成功報告あり。
+- ユーザー提示の全体実行ログで14件成功、Failures 0・Errors 0・Skipped 0・BUILD SUCCESSを確認。内訳はLoginRequestTest 8件、MasterDataServiceTest 2件、UserServiceTest 4件。終了日時2026-11-11T00:33:44+09:00、Total time 3.176 s。案内コマンドはmvn -f backend/pom.xml testで、コマンド行自体は結果と同時には提示されていない。AI再実行は未実施。
+- 次回は認証ユーザー情報と認証用検索の構成整理。User.java・UserRepository.java・UserService.javaを確認し、ユーザーID・email・passwordHash・systemRole.code・deletedAtの取得元と用途を整理する。
+- UserDetails・UserDetailsService・DaoAuthenticationProviderの役割を調べ、認証情報の保持項目、未削除ユーザー検索、パスワード照合の責務を説明できる状態にする。独自UserDetails等の具体的な採用・クラス名・配置は候補であり、未確定。ソース作成前に設計との整合をレビューする。
+- 認証API・セッション・CSRF等の仕様は既存設計に従う。具体的なセッション保存、削除・権限変更の反映、JSONログイン受付、Security側のエラー処理、CSRF管理、フロント通信構成は具体化が必要。DTO検証成功を認証・HTTP・DB接続成功とは扱わない。
+- ブランチfeature/authentication、HEAD 77dbdae。終了確認時はLoginRequestTest.javaに未コミット変更あり。本終了処理ではcontext/logsのみ更新し、設計書のテスト結果欄は未更新。ソース・設定の編集、テスト再実行、Git変更操作は行っていない。
+
 ## 2026-11-07 終了時点（最新）
 
 - LoginRequestTestの配置・packageをauthへ修正済み。UT-AUTH-DTO-001（正常入力）を作成・レビューし、ユーザーから1件実行・Failures 0・Errors 0・Skipped 0・BUILD SUCCESSの報告あり。AI再実行は未実施。

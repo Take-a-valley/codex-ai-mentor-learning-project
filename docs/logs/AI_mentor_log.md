@@ -1,5 +1,17 @@
 # AI Mentor Log
 
+## 2026-11-10〜11 作業・終了報告：LoginRequest入力検証8件と全体14件成功
+
+- 終了報告後、ユーザーの明示依頼で単体テスト仕様書を更新。全14ケースの最新結果、5.4の成功証跡、未コミット変更を含む対象状態、検証範囲を反映し、後続検証の古い「null・空メールの入力契約未確定」をLoginRequestの確定済み仕様と区別した。本節末尾の「結果欄は未更新」は終了報告時点の記録で、現在は更新済み。
+
+- UT-AUTH-DTO-002〜008を段階的に作成・レビュー。emailのnull・空文字・空白・不正形式、passwordのnull・空文字・空白を検証し、各段階の成功ログをユーザーから受領した。
+- ConstraintViolationの項目名と制約アノテーション型を使った判定、for文とStreamの別解、anyMatch・noneMatch、終端操作ごとのStream生成、判定結果のassertTrueによる合否確認を説明した。emailResult未使用警告はアサーション行の欠落によるもので、復元を案内した。
+- password/emailに違反がないことは制約型を限定せず確認する。不正形式emailではEmail違反がありNotBlank違反がないことを確認する。ケース番号・入力と不一致のメッセージ・anyMatchとnoneMatchの逆転を指摘し、修正を確認した。002はコメント用の各行解説も実施した。
+- 最終的にLoginRequestTest 8件成功、続く全体ログで14件成功、Failures 0・Errors 0・Skipped 0・BUILD SUCCESSを確認。終了日時2026-11-11T00:33:44+09:00、Total time 3.176 s。内訳はDTO 8件、MasterDataService 2件、UserService 4件。全体実行としてmvn -f backend/pom.xml testを案内し、その後結果を受領したが、コマンド行自体は同時提示なし。AI再実行は未実施。
+- 認証設計と実装を照合し、確定仕様、既実装、具体化が必要な事項を分けて案内。セッション認証・120分・Cookie・CSRF・本人情報API・削除済みの扱いは既存仕様を維持。認証情報の保持・検索・権限変換・PasswordEncoder・JSON受付・セッション保存・Securityエラー処理・フロント通信等は実装設計の整理対象とした。
+- 次回タスクはUser Entity・Repository・Serviceを参照し、認証情報の保持項目と取得方法を整理すること。公式資料でUserDetails・UserDetailsService・DaoAuthenticationProviderの役割を調べ、構成案をレビュー後に確定する。独自認証クラスの名前や配置は未確定で、AuthService/Controller等は未実装。
+- 終了確認時はfeature/authentication、HEAD 77dbdae、LoginRequestTest.javaに未コミット変更あり。context/logsのみ更新し、単体テスト仕様書の結果欄は未更新。ソース・設定の編集、テスト再実行、Git変更操作は実施していない。
+
 ## 2026-11-07 終了報告・LoginRequest正常入力の単体テスト
 
 - LoginRequestTestのUT-AUTH-DTO-001をレビュー。Factoryの解放、仕様書どおりの入力値、秘密情報を不用意に出さない固定アサーションメッセージを案内し、修正を確認した。
