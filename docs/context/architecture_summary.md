@@ -1,5 +1,12 @@
 # Architecture Summary
 
+## 2026-11-13 構成方針の更新（以下の旧構成記述より優先）
+
+- 機能別はauth・master・user・project・task。ProjectMember/ProjectInvitationはproject、TaskComment/Attachmentはtask、PasswordResetTokenはuserへ置き、現時点では独立機能パッケージへ分割しない。
+- security/configにSecurityConfig、security/principalにLoginUserDetails、security/serviceにLoginUserDetailsServiceを配置。本体の移動はユーザー側で実施済み。検索クラスは空クラスで実装途中。
+- 対象と同じパッケージ構成でsrc/test/javaへテストを配置する。LoginUserDetailsTestもprincipal配下へ移動済み。2026-11-13のユーザー提示ログで移動後の全18件成功を確認した。
+- ルートconfigは横断的設定が必要になった場合に追加し、security専用設定と重複させない。exceptionは現在の規模では細分化しない。
+
 ## 現在の状態
 
 - タスク管理機能の設計書は `docs/architecture/タスク管理機能/` 配下で管理する

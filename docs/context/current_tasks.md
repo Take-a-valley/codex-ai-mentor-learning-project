@@ -1,5 +1,70 @@
 # Current Tasks
 
+## 2026-11-13 終了時点（以下の過去記録より優先）
+
+- securityのconfig/principal/serviceへの整理とLoginUserDetailsTestの対応配置を確認。移動後の全18件成功はユーザー提示ログ（00:12:06 +09:00）で確認し、単体テスト仕様書5.8へ記録済み。
+- その後LoginUserDetailsServiceの検索・変換・不在例外・読み取り専用トランザクションを実装、レビュー済み。compile成功報告は00:33:59 +09:00、全体1.419秒。この実装後の全体テスト成功は未確認で、先の18件成功に含めない。
+- 次回はbackend/src/test/java/com/example/devsupport/security/service/LoginUserDetailsServiceTest.javaを新規作成。終了確認時点でファイルなし。単体テスト仕様書4.10のUT-AUTH-LOOKUP-001について、Repositoryモック・実物Service・SystemRoleとUser・ID設定・検索スタブの準備から再開する。準備部分レビュー後に変換結果と検索1回を確認し、続いて002の空結果例外を追加する。
+- 新規2ケースは設計済み・未作成・未実施。完成後は単独2件、全体20件の実行を予定。認証API・セッション・CSRF・実DB・トランザクション適用の確認とは分ける。
+- ブランチfeature/authentication、HEAD c3b93f6。認証関連の新規ソース・テストと文書に未コミット変更あり。SecurityConfigの旧パス削除・新パス追加も含む。AIはソース編集・テスト再実行・Git変更操作を行っていない。
+
+## 2026-11-13 認証用検索のテスト準備（最新）
+
+- 単体テスト移行前の継続許可に基づき、Service設計書9.5・Security設計書10.2・テストケース設計書と単体テスト仕様書4.10を整合更新。UT-AUTH-LOOKUP-001（成功変換）・002（空結果例外）を定義、いずれも未作成・未実施。
+- 次はsecurity/service/LoginUserDetailsServiceTest.javaの001を段階的に作成。Repositoryをモック、Service・SystemRole・Userは実物。まず生成と検索スタブまでレビューし、次に戻り値全項目・権限と検索1回を確認する。最終的に単独2件・全体20件予定。実DB・Springトランザクション・認証全体は別範囲。
+
+## 2026-11-13 LoginUserDetailsService実装・コンパイル成功（最新）
+
+- security/service/LoginUserDetailsService.javaのUserDetailsService実装、Service登録、Repository注入、emailでの未削除検索、LoginUserDetails変換、不在時UsernameNotFoundException、メソッドのTransactional(readOnly=true)をレビュー済み。過去の空クラスという記録は解消。
+- ユーザー提示ログでcompileのBUILD SUCCESSを確認。終了2026-11-13T00:33:59+09:00、全体1.419秒。AI再実行なし、検索処理の単体テスト成功ではない。
+- 次は認証用検索の関連設計・単体テスト仕様を整備してからLoginUserDetailsServiceTestへ進む。検索成功時の値変換と不在時例外・検索呼び出しが対象。仕様・ケースはこれから定義する。実DBの論理削除条件・Springによるトランザクション適用・ログイン等は別の接続検証。
+
+## 2026-11-13 移動後の全18件成功（最新）
+
+- LoginUserDetailsTestのsecurity/principal配置・package変更、旧配置の削除を確認。ユーザー提示ログで全18件成功、失敗・エラー・スキップ0、BUILD SUCCESS。終了2026-11-13T00:12:06+09:00、全体5.215秒。仕様書結果表・5.8と関連文書へ反映済み。以下の移動未対応・再実行待ちは解消。
+- 次はsecurity/service/LoginUserDetailsService.javaの実装。UserDetailsService実装・Service登録・UserRepositoryのfinalフィールドとコンストラクタ注入から進め、検索処理はレビュー後に追加する。AIはソース変更・テスト再実行・Git変更操作なし。
+
+## 2026-11-13 配置整合の文書更新（最新）
+
+- 明示依頼によりルートREADME・FILE_LIST、architectureのREADME・バックエンド構成・セキュリティ・単体テスト仕様書とコンテキストを更新。現構成を維持し、securityはconfig/principal/serviceで責務分離する。
+- ユーザー側でSecurityConfig・LoginUserDetailsの配置/package変更を確認。LoginUserDetailsServiceはsecurity/serviceの空クラス。LoginUserDetailsTestはsecurity直下に残り、principal配下へ移動する方針で未対応。AIはソースやテストを移動していない。
+- 次はユーザー側でテストの配置/packageをそろえ、全体テストを再実行する。その後LoginUserDetailsServiceのクラス宣言・Repository注入・検索変換処理へ進む。過去18件成功は移動後の成功とは扱わない。
+
+## 2026-11-12 全18件成功（最新）
+
+- ユーザー提示ログで全18件成功、失敗・エラー・スキップ0、BUILD SUCCESS。終了2026-11-12T23:54:39+09:00、全体3.299秒。仕様書結果表と5.7へ反映済み。AI再実行なし。以下の「全18件未確認」は解消。
+- 次は認証用ユーザー検索の設計・実装。UserDetailsServiceでemailから未削除ユーザーを検索してLoginUserDetailsへ変換し、不在はUsernameNotFoundExceptionとする方針を具体化する。クラス名・配置・トランザクションは着手時に整理。ソース・設定・Git変更操作なし。
+
+## 2026-11-12 UT-EXCEPTION-001単独成功（最新）
+
+- GlobalExceptionHandlerTestをレビュー済み。ユーザー提示ログで1件成功、失敗・エラー・スキップ0、BUILD SUCCESSを確認。終了2026-11-12T23:53:18+09:00、Maven全体3.605秒。単体テスト仕様書の結果表と5.6へ反映済み。ユーザー削除済みの証跡カラムは復元していない。
+- 次はmvn -f backend/pom.xml testで全18件を一括確認する。全18件成功はまだ未確認。完了後は認証用ユーザー検索の実装設計・仕様確認へ進む。MVCの自動捕捉・JSON・認証は別の検証範囲。
+- import誤り、HttpStatusCodeのvalue呼び出し、日時の完全一致と境界除外を修正し、範囲外条件をassertFalseで否定する実装を確認した。AIはソース編集・テスト再実行・Git変更操作を行っていない。
+
+## 2026-11-12 テスト結果の自動記録（最新）
+
+- 今後ユーザーからテスト結果を受領したら、AIが必要な仕様書・進捗・ログMarkdownへ自動反映する。未提示の条件・日時・コマンド・成功範囲は推測しない。
+- 受領済み全17件成功を単体テスト仕様書5.5と全17ケースの結果欄へ反映済み。以下の「結果欄は別途更新対象」は解消済み。UT-EXCEPTION-001は未作成・未実施のまま。次は同ケースの実装。
+
+## 2026-11-12 GlobalExceptionHandler単体テストへ移行（最新）
+
+- ユーザー提示ログでLoginUserDetailsTestの3件、および全体17件成功を確認。全体終了2026-11-12T16:45:23+09:00、Failures/Errors/Skippedは0、BUILD SUCCESS、全体3.488秒。AI再実行なし。仕様書の既存結果欄は別途更新対象。
+- 次はUT-EXCEPTION-001。GlobalExceptionHandlerTest.javaを作成し、実物のハンドラへ例外を直接渡して404・code・message・details・timestampを検証する。単体テスト仕様書4.9、テストケース設計書6章、例外設計書4章へ追記済み。ケースは未作成・未実施。単独1件・全体18件を見込む。
+- 今後は単体テストへ移る前にAIが仕様を確認し、不足記述を関連する設計書Markdownへ自動追記する継続許可あり。未確定の仕様は確認し、ソース・設定・Git変更操作へ許可を拡張しない。
+
+## 2026-11-12 LoginUserDetailsのテスト仕様追加（最新）
+
+- LoginUserDetailsは実装・レビュー済み。ユーザー提示ログで2026-11-11T17:57:05+09:00にcompile成功を確認。AI再実行なし。過去の「未作成」は現在の状態ではない。
+- 明示依頼により単体テスト仕様書4.8へUT-AUTH-DETAILS-001〜003を追加。001はid・email・架空ハッシュの取得、002/003はUSER/SYSTEM_ADMINの権限1件とcode完全一致を検証する。ケース本体は未作成・未実施。LoginUserDetailsTest.javaは空クラスのみ存在する。
+- 次は001を実装する。実物のLoginUserDetailsを異なる架空値で生成し、assertEqualsで戻り値を検証する。モックは不要。続いて権限2ケース、単独3件・全体17件の実行を行う予定であり、まだ成功とは扱わない。
+- セキュリティ設計書とテストケース設計書へ根拠・検証範囲を追加。質問で理解を確認しつつ、直近に必要な設計が固まれば実装へ進み、過度に質問だけを続けない。ソース・設定の編集、テスト実行、Git変更操作なし。
+
+## 2026-11-11 再開後の学習状況・進め方
+
+- ユーザー希望により、小さな質問・調査ヒント→ユーザー回答→正誤と理由の説明→次の問い、の形式を基本とする。完成コードは明示依頼時のみ。詳細はdecisions.md参照。
+- 認証用のgetUsernameはemail、getPasswordはpasswordHash、getAuthoritiesはsystemRole.codeを基にした権限集合と整理した。DBのidは別途本人識別用の保持候補。
+- ログイン時の検索はfindByEmailAndDeletedAtIsNull、認証用検索の不在例外はUsernameNotFoundExceptionと確認。独自UserDetailsのクラス名・配置はsecurity/LoginUserDetails.javaを候補として提示しただけで未確定・未作成。次は保持項目とUserDetailsの各メソッドの対応を小さな問いで整理する。
+
 ## 2026-11-11 終了時点（以下の過去記録より優先）
 
 - 終了報告後の明示依頼により、単体テスト仕様書5章の全14ケースを最新成功結果へ更新し、5.4へ実行証跡・日時・作業状態・検証範囲を追記した。以下の「結果欄は未更新」は終了報告時点の記録で、本追記により解消済み。

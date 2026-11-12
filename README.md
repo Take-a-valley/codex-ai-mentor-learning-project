@@ -92,14 +92,13 @@ docs/logs/ 配下のMarkdown
 原則としてAIが直接編集しない範囲:
 
 ```text
-docs/architecture/ 配下の設計書
 ソースコード
 設定ファイル
 packageや依存関係ファイル
 Markdown以外のファイル
 ```
 
-設計書やコードはユーザーが作成し、Codexはレビューと学習支援を行います。
+設計書Markdownはユーザーの明示指示によりAIも編集できます。単体テスト着手時の不足仕様の追記と、ユーザー提示結果の記録は継続許可に基づき行います。ソースコードはユーザーが記述し、Codexはレビューと学習支援を行います。詳細はAGENTS.md・PROMPT.md・docs/context/decisions.mdを参照してください。
 
 ## ディレクトリ構成
 
@@ -110,12 +109,16 @@ Markdown以外のファイル
 ├─ backend/
 │  ├─ pom.xml
 │  └─ src/
+│     ├─ test/java/      対象クラスに対応するパッケージでテストを配置
 │     └─ main/
 │        ├─ java/
 │        │  └─ com/example/devsupport/
 │        └─ resources/
 │           ├─ application.yml
-│           └─ db/migration/
+│           ├─ application-dev.yml
+│           └─ db/
+│              ├─ migration/      通常用V1〜V8
+│              └─ dev-migration/  開発用V9
 ├─ frontend/
 ├─ infra/
 │  └─ docker/
@@ -164,11 +167,11 @@ AIが直接編集できる領域です。
 
 要件定義書、基本設計書、詳細設計書などの設計成果物を管理します。
 
-この配下の設計書は、ユーザーが作成・修正します。
+この配下の設計書Markdownはユーザー主体で管理し、明示指示によりAIも編集します。テスト仕様と結果の自動記録は前述の継続許可に従います。
 
 ## 現在の進捗
 
-現在は、タスク管理機能の基本設計・詳細設計が完了し、実装準備からバックエンド最小起動確認まで進んでいます。
+2026-11-13時点ではバックエンドの基礎実装を終え、認証基盤を実装中です。設計済みと実装済みは区別し、最新情報はdocs/context/current_tasks.mdを参照してください。
 
 完了済みの主な作業:
 
@@ -184,14 +187,20 @@ AIが直接編集できる領域です。
 - Spring Boot最小起動確認
 - MySQL接続確認
 
-次の主な作業:
+追加の完了事項:
 
-- Flyway初期マイグレーション作成
-- DBテーブル作成
-- Entity実装
-- Repository実装
-- 共通例外実装
-- Security実装
+- 通常マイグレーションV1〜V8、開発用V9の適用確認
+- Entity・Repository、固定マスタAPI、UserService、共通例外処理の実装
+- LoginRequest・Service・LoginUserDetails・GlobalExceptionHandlerの単体テスト全18件成功（2026-11-12のユーザー提示ログ）
+
+現在の作業と未実施事項:
+
+- security/config・principal・serviceへ構成整理済み。LoginUserDetailsTestもprincipal配下へ移動し、2026-11-13のユーザー提示ログで全18件成功を確認
+- LoginUserDetailsServiceは空クラスの段階。未削除ユーザー検索と認証情報への変換をこれから実装
+- AuthService・認証API・セッション・CSRFの接続、フロントエンド実装は未完了
+- 今回の配置・package変更後の回帰確認は完了。今後の実装・構成変更時も関連テストを再実行する
+
+機能パッケージはauth・master・user・project・taskとし、共通認証基盤はsecurity、共通例外はexception、共通応答はcommon/dto/responseへ配置します。詳細はバックエンド構成設計書を参照してください。
 
 ## 開発環境の起動
 

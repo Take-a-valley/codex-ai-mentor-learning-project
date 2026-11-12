@@ -187,6 +187,12 @@ AuthServiceは、認証済みユーザーに関する情報取得を担当する
 
 外部へはCurrentUserResponseを返し、UserResponseのidをuserId、systemRoleCodeをsystemRoleへ変換する。email・displayNameは対応する値を使用し、ロール名・監査日時・パスワードハッシュは追加しない。User不在時の認証失敗への変換は10章に従う。
 
+## 9.5 認証用検索との分担
+
+security/service/LoginUserDetailsServiceはUserDetailsServiceを実装し、loadUserByUsernameの引数をemailとしてUserRepository.findByEmailAndDeletedAtIsNullへ渡す。実装した検索処理は読み取り専用トランザクションとし、Userからid・email・passwordHash・systemRole.codeを取得してLoginUserDetailsへ変換する。空結果ではUsernameNotFoundExceptionを投げる。
+
+UserServiceのUserResponseにはハッシュを追加しない。認証用検索はAuthServiceの本人情報DTO生成と分け、パスワード照合・セッション保存・HTTP変換は担当しない。単体テストは単体テスト仕様書4.10を正本とし、実物ServiceとRepositoryモックを使用する。
+
 ## 10. UserService
 
 UserServiceは、認証・業務Serviceから利用する未削除ユーザー検索とDTO変換を担当する。独立したUserControllerやユーザー検索APIの公開を前提としない。

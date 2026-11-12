@@ -1,5 +1,66 @@
 # AI Mentor Log
 
+## 2026-11-13 終了報告
+
+- securityの配置整理、テスト移動、関連設計・README・ファイル一覧の整合を実施。移動後の全18件成功は00:12:06 +09:00のユーザー提示ログで確認済み。
+- LoginUserDetailsServiceを段階的にレビュー。UserDetailsとUserDetailsServiceの役割、implements、Repository注入、Optional.mapとorElseThrow、共変戻り値、読み取り専用トランザクションを説明し、コメント用の全行解説を行った。compile成功は00:33:59 +09:00、全体1.419秒の報告。認証機能完成や実装後のテスト成功とは区別した。
+- 継続許可に基づき、Service設計9.5・Security設計10.2・テスト観点と単体テスト仕様4.10へ成功変換と検索不在の2ケースを追加。結果は未作成・未実施のまま。
+- 終了確認時、LoginUserDetailsServiceTest.javaは未作成。次回は001の準備（モックRepository・実物Service・実物Entity・ReflectionTestUtilsでID設定・検索スタブ）から着手する。既存UserServiceTestを参考にし、完成コードは明示依頼時のみ提示する。
+- feature/authentication、HEAD c3b93f6。新規ソース・テスト、配置変更、関連文書に未コミット変更あり。ソース編集・テスト再実行・Git変更操作なし。記事関連の内容は記録していない。
+
+## 2026-11-13 認証用検索の単体テスト仕様
+
+- 次ステップ依頼を受け、テスト移行前に関連設計を自動整備。UT-AUTH-LOOKUP-001/002の成功変換・不在例外・検索1回を仕様化し、Service設計書とSecurity設計書へ実装の責務を明記した。
+- 実物Service・Repositoryモックで検証し、認証や実DBの削除条件を保証しないことを明記。新規2件は未作成・未実施、全体20件は予定。ソース編集・テスト実行・Git変更操作なし。
+
+## 2026-11-13 LoginUserDetailsServiceレビュー・コンパイル成功
+
+- クラスのUserDetailsService実装とUserRepository注入、loadUserByUsernameのemail検索・Optional変換・UsernameNotFoundExceptionを確認。LoginUserDetailsを返す共変戻り値は有効と説明。読み取り専用トランザクションをメソッドへ追加したことも確認した。
+- ユーザー提示のcompileログでBUILD SUCCESS、終了2026-11-13T00:33:59+09:00、全体1.419秒。各行の役割を解説。単体テストやログイン成功の証跡ではない。AIはソース編集・コンパイル再実行・Git変更操作を行っていない。
+- 次の単体テスト着手前に関連設計とケースを追加する。現時点で検索Serviceのテストは未実施。
+
+## 2026-11-13 配置変更後の全18件成功
+
+- ユーザーによるテスト移動を確認。LoginUserDetailsTestのpackageと配置がsecurity/principalに一致し、旧配置は存在しない。ログの実行クラス名も一致。
+- 全18件、失敗・エラー・スキップ0、BUILD SUCCESS。終了2026-11-13T00:12:06+09:00、全体5.215秒。仕様書結果表・5.8、構成設計・README・コンテキストへ自動反映。FILE_LISTは既に新配置で整合しているため変更不要。
+- 次はLoginUserDetailsServiceのRepository注入等の実装から再開。AI再実行・ソース編集・Git変更操作なし。
+
+## 2026-11-13 リポジトリ構成の照合・文書整合
+
+- 配置一覧・package・構成設計を照合。security本体はユーザーがconfig/principal/serviceへ整理済み、テストは旧階層に残っていた。LoginUserDetailsServiceは空クラス。既存project・task・userの関連ファイルは大規模分割せず維持する案を提示。
+- 明示依頼でREADME・構成設計・セキュリティ設計・テスト仕様・architecture README・ファイル一覧とコンテキストを更新。設計上の推奨テスト配置と移動未対応を明記し、古い一律編集禁止説明を既存の許可方針へ整合させた。
+- 次はユーザーによるLoginUserDetailsTestの配置/package整理と再実行。その後認証用検索の実装。ソース・設定・テストの編集や移動、テスト実行、Git変更操作は行っていない。
+
+## 2026-11-12 全18件の一括成功
+
+- ユーザー提示ログでLoginRequest 8件、GlobalExceptionHandler 1件、MasterDataService 2件、LoginUserDetails 3件、UserService 4件の全18件成功を確認。失敗・エラー・スキップ0、BUILD SUCCESS。終了2026-11-12T23:54:39+09:00、全体3.299秒。
+- 仕様書結果表と5.7、進捗を自動更新。Mockito等の警告は残る。次は認証用ユーザー検索の設計・実装。MVC・JSON・認証・実DBは未検証。AI再実行・ソース編集・Git変更操作なし。
+
+## 2026-11-12 GlobalExceptionHandler単体テスト成功
+
+- UT-EXCEPTION-001をレビューし、独自ErrorResponseのimport、ステータスの整数取得、timestampの非nullと包含範囲の検証へ修正を案内。現在時刻の各成分一致は不安定なため廃止し、呼び出し直前・直後の時刻を記録して範囲外でないことを確認する実装をレビューした。コメント用の全行解説も実施。
+- ユーザー提示ログで1件成功、Failures/Errors/Skipped 0、BUILD SUCCESS。終了2026-11-12T23:53:18+09:00、テスト0.114秒・全体3.605秒。仕様書結果表と5.6、進捗を自動更新した。ユーザーが削除した結果表の証跡カラムは復元せず、記録本文で証跡を管理。
+- 次は全体18件の実行。まだ一括成功とは扱わない。AI再実行・ソース編集・Git変更操作なし。
+
+## 2026-11-12 テスト結果自動反映の運用追加
+
+- ユーザーの明示依頼により、今後受領するテスト結果を必要なMarkdownへ自動記録する方針を決定事項と単体テスト仕様書へ追加した。未提示情報を推測せず、ユーザー報告とAI再実行を区別する。
+- 受領済みの全17件成功を仕様書5.5・結果表へ反映。日時2026-11-12T16:45:23+09:00、失敗・エラー・スキップ0、BUILD SUCCESS、全体3.488秒。LoginUserDetailsTestの段階的成功ログも記録した。GlobalExceptionHandlerの新ケースは含まれない。
+- ソース・設定編集、テスト再実行、Git変更操作は行っていない。
+
+## 2026-11-12 GlobalExceptionHandlerのテスト仕様追加・運用更新
+
+- ユーザー依頼でGlobalExceptionHandlerの実装と既存仕様を確認し、単体テスト仕様書4.9にUT-EXCEPTION-001を追加。実物へ例外を直接渡し404とエラー本文・空details・呼び出し前後のtimestampを確認する。MVC自動捕捉・JSON・Securityは対象外。ケースは未作成・未実施。
+- テストケース設計書・例外設計書と進捗も更新。単体テスト移行時に不足仕様をAIが関連設計書Markdownへ自動追記する継続許可をdecisionsに記録した。未確定仕様は推測せず質問し、ソース編集許可と混同しない。
+- 直前までのLoginUserDetailsTestは001〜003をレビューし、ユーザー提示の全体ログで17件成功を確認。終了2026-11-12T16:45:23+09:00、全体3.488秒。Mockito等の警告は残る。AI再実行なし。今回ソース・設定・Git変更操作なし。
+
+## 2026-11-12 LoginUserDetailsテスト仕様の整備
+
+- ユーザー依頼で関連仕様を確認し、LoginUserDetailsTestの記載がないため単体テスト仕様書へ3ケースを追加。取得値確認とUSER/SYSTEM_ADMIN権限生成を分け、既存14件の成功記録は維持し、新規ケースは未実施とした。実ファイルは空クラスのみ。
+- 前日のチャットではgetUsername=email、getPassword=passwordHash、getAuthoritiesの権限表現、システムとプロジェクト認可の区別、本人情報の最新DB参照を説明。ユーザーはcodeそのまま・hasAuthorityの方式に合意。LoginUserDetails実装をレビューし、11-11 17:57:05 +09:00のcompile成功ログを受領済み。
+- テスト対象は実物、依存先は必要時にモック化すること、異なる値で取得メソッドの取り違えを検出すること、assertEqualsの期待値・実際値を説明した。ユーザー希望により理解確認を挟みつつ必要事項が固まれば実装へ移る。
+- セキュリティ設計書10.1・11.1とテストケース設計書6章、decisions/current_tasksも整合更新。認証後のハッシュ消去・セッション保持方式は未確定で、今回の取得テストで認証成功・セッション・CSRFを保証しない。ソース編集・テスト再実行・Git変更操作なし。
+
 ## 2026-11-10〜11 作業・終了報告：LoginRequest入力検証8件と全体14件成功
 
 - 終了報告後、ユーザーの明示依頼で単体テスト仕様書を更新。全14ケースの最新結果、5.4の成功証跡、未コミット変更を含む対象状態、検証範囲を反映し、後続検証の古い「null・空メールの入力契約未確定」をLoginRequestの確定済み仕様と区別した。本節末尾の「結果欄は未更新」は終了報告時点の記録で、現在は更新済み。
