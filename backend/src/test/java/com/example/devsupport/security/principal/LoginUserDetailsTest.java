@@ -6,8 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.example.devsupport.security.principal.LoginUserDetails;
-
 public class LoginUserDetailsTest {
     @Test
     @DisplayName("UT-AUTH-DETAILS-001: ID・email・passwordHashの取得検証")

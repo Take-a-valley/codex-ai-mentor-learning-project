@@ -1,5 +1,90 @@
 # Current Tasks
 
+## 2026-11-14 終了時点（以下の過去記録より優先）
+
+- LoginUserDetailsServiceTestの成功・不在2件とPasswordEncoderConfigTestの生成形式・一致・不一致3件を実装・レビュー・ユーザー実行済み。最新全体ログは2026-11-13T18:01:32+09:00、23件成功、失敗・エラー・スキップ0、BUILD SUCCESS、全体3.632秒。単体テスト仕様書5.15と結果表へ記録済み。AI再実行なし。
+- DelegatingPasswordEncoder採用・{bcrypt}付き保存を決定。SecurityConfigのBeanを実装済み。V9は適用済みのため変更せず、開発専用V10を追加しユーザーが適用。SQL確認結果はusers 1件・識別子付き1件・本体のみ0件、V10 success=1。DBは空ではない。V9/V10とも以後変更しない。
+- 次回はDaoAuthenticationProviderがUserDetailsServiceとPasswordEncoderをそれぞれ何のために使うか、という理解確認から再開する。その後AuthenticationManagerとの接続・必要な設定を既存仕様/使用バージョンと照合して具体化し、実装へ進む。具体的なProvider/Manager設定は未確定・未実装。
+- 実DB管理者の平文との照合、ログインAPI・セッション保存・CSRF・MVC接続は未検証。単体23件成功やハッシュ形式変換で認証機能完成としない。
+- 終了時ブランチfeature/authentication、HEAD 180626f。SecurityConfig、テスト、V10、設計書・ログ等に未コミット変更あり。終了報告後に必要なGitコマンドを提示するが、AIはGit変更操作・ソース編集・テスト再実行をしない。
+
+## 2026-11-13 全23件成功（最新）
+
+- ユーザー提示ログで23件成功、失敗・エラー・スキップ0、BUILD SUCCESS。終了2026-11-13T18:01:32+09:00、全体3.632秒。仕様書結果表・5.15へ反映。AI再実行なし。Encoder設定・新規3テストは完了。
+- 次は認証用検索とEncoderを認証処理につなぐ構成の具体化。DaoAuthenticationProviderとAuthenticationManagerの役割・接続を調べ、JSONログイン受付・セッション保存の既存設計と照合して実装範囲を決める。これらの具体的設定はまだ未確定・未実装。過度な先行質問を避け、直近の理解確認後に実装する。
+
+## 2026-11-13 Encoder設定3件成功（最新）
+
+- UT-AUTH-PASSWORD-001〜003をレビュー済み。ユーザー提示ログで3件成功、失敗・エラー・スキップ0、BUILD SUCCESS。終了2026-11-13T17:59:54+09:00、全体2.447秒。仕様書結果表・5.14へ反映、AI再実行なし。
+- 次はmvn -f backend/pom.xml testで全体23件を確認する。新規3件・既存20件の一括成功は未確認。完了後は認証処理への接続に必要なProvider/Manager・JSON受付・セッション保存等の既存仕様を確認して具体化する。DB管理者の照合・HTTP認証成功はまだ未検証。
+
+## 2026-11-13 UT-AUTH-PASSWORD-001・002成功（最新）
+
+- 一致照合の入力順とassertTrueをレビュー済み。ユーザー提示ログで2件成功、失敗・エラー・スキップ0、BUILD SUCCESS。終了2026-11-13T17:56:43+09:00、全体2.397秒。仕様書結果表・5.13へ記録、AI再実行なし。
+- 次は003。TestPass123!から生成した保存文字列へWrongPass456!をmatchesで照合し、assertFalseで不一致を確認。完成後は単独3件・全体23件を確認する。DB管理者の照合・認証APIは未検証。
+
+## 2026-11-13 UT-AUTH-PASSWORD-001成功（最新）
+
+- 設定Beanと生成形式テストをレビュー済み。ユーザー提示ログでPasswordEncoderConfigTest 1件成功、失敗・エラー・スキップ0、BUILD SUCCESS。終了2026-11-13T17:53:09+09:00、全体3.572秒。仕様書結果表・5.12へ記録、AI再実行なし。
+- 次は002の一致照合。SecurityConfigから得たEncoderで架空平文をencodeし、同じ平文と生成結果をmatchesへ渡してtrueを確認する。続いて003の異なる平文でfalseを確認する。新規3件完了後は全体23件を実行予定。実DBユーザー照合・認証APIは未検証。
+
+## 2026-11-13 PasswordEncoder Beanのコンパイル成功（最新）
+
+- SecurityConfig.passwordEncoderのDelegatingPasswordEncoder生成をレビュー済み。直後のcompile案内に対しユーザーからBUILD SUCCESSの報告あり。終了時刻・コマンド全文・所要時間は未提示、AI再実行なし。照合テスト成功とは扱わない。
+- 次は単体テスト仕様書4.11のUT-AUTH-PASSWORD-001。security/config/PasswordEncoderConfigTest.javaを作成し、実物SecurityConfigのpasswordEncoderからEncoderを取得、架空の平文をencodeした結果が非null・{bcrypt}始まりであることを検証する。その後一致/不一致の002・003へ進む。テストは未実施。
+
+## 2026-11-13 V10適用後確認完了（最新）
+
+- ユーザー提示SQL結果でtotal_users=1、prefixed_users=1、bcrypt_only_users=0、V10 success=1を確認。DB形式整合の確認は完了。V9/V10とも適用済みとして変更しない。
+- 次はsecurity/config/SecurityConfig.javaへPasswordEncoder型を返すpublicなpasswordEncoder Beanメソッドを追加し、PasswordEncoderFactories.createDelegatingPasswordEncoder()の結果を返す。既存SecurityFilterChainの設定はこの段階で変更しない。
+- Beanレビュー・compile後、単体テスト仕様書4.11のUT-AUTH-PASSWORD-001〜003を作成・実行する。新規3件・全体23件はまだ未実施。認証接続・既存管理者パスワード照合は未検証。
+
+## 2026-11-13 V10適用成功（最新）
+
+- V10をレビュー済み。既存password_hashへ{bcrypt}を連結し、識別子なしBCrypt先頭形式に限定するSQLを確認。ユーザー提示Flywayログで16:43:22.913 +09:00に1件適用成功・v10を確認。SQLは適用済みとして以後変更しない。
+- 次はusers件数維持、保存形式PREFIXED 1件・BCRYPT_ONLY 0件、Flyway V10 success=1を確認。ログだけでは影響行数を断定しない。その後SecurityConfigのPasswordEncoder Beanを実装する。Bean・新規3テストはまだ未実装。
+
+## 2026-11-13 DB形式確定・開発用V10の準備（最新）
+
+- ユーザー提示のASCII判定結果でBCRYPT_ONLY 1件を確認。以前の結合されたラベルによる判定保留は解消。V9適用済み・users 1件を維持して開発用V10で識別子を付ける方針をFlyway設計23.1へ記録。
+- 次はsrc/main/resources/db/dev-migration/V10__prefix_dev_password_hashes.sqlをユーザーが作成。識別子なしBCrypt先頭形式の行だけを対象に{bcrypt}を追加し、既に識別子付きの行は更新しない。V9変更・削除再投入はしない。レビュー後に適用し、履歴・件数・形式を確認する。
+- V10・PasswordEncoder Bean・新規3テストは未作成/未実施。DB形式判定は実際の照合成功やハッシュ全体の妥当性を保証しない。AIによるSQL・DB変更なし。
+
+## 2026-11-13 DBハッシュ形式の判定保留（最新）
+
+- ユーザー提示結果はhash_formatが「BCrypt本体のみその他・要確認」で1件。案内したCASE式の単一ラベルと一致しないため、BCrypt本体のみと断定しない。SQL実行内容または表示・貼り付けの違いを含め原因未確定。半角英数字ラベルで再確認し、結果確定までは移行SQLを具体化しない。
+
+## 2026-11-13 users件数確認（最新）
+
+- ユーザー提示のCOUNT結果はusers 1件。V9適用済みかつ既存ユーザーありで、空DB前提は解消。既存行が初期管理者そのものかとDB保存ハッシュの現在形式は未確認。
+- 次はハッシュを公開せず形式だけを確認し、開発専用の追加マイグレーションで{bcrypt}識別子を付ける対象を具体化する。V9変更・ユーザー削除・再投入は行わない。PasswordEncoder Bean等も未実装。
+
+## 2026-11-13 V9適用履歴確認（最新）
+
+- ユーザー提示のflyway_schema_historyでV1〜V9のsuccess=1を確認。V9は適用済みのため変更しない。これまでの「適用履歴未確認」は解消。
+- usersのCOUNT結果は未提示で、ユーザーデータが空かは未確定。次は件数を確認し、開発専用の追加マイグレーションで既存ハッシュ形式を整合するか、初期管理者を再投入する必要があるかを判断する。具体的SQL・番号はまだ未確定。DB・SQLの変更は実施していない。
+
+## 2026-11-13 DelegatingPasswordEncoder採用（最新）
+
+- ユーザー明示選択によりBCrypt単独の案からDelegatingPasswordEncoderへ変更。SecurityConfig.passwordEncoderでPasswordEncoderFactories.createDelegatingPasswordEncoder()をBean化し、新規保存は{bcrypt}付きとする設計を関連仕様へ反映。Bean・SQL・テストはまだ未実装。
+- 次はSecurityConfigのPasswordEncoder Bean実装。単体テスト仕様書4.11に生成形式・一致・不一致の3件を定義、いずれも未作成・未実施。完成時は単独3件・全体23件予定で、最新成功は従来20件のみ。
+- DBは空とのユーザー報告。users行だけか、テーブルやFlyway履歴も空かは未確認。V9の識別子なし初期ハッシュを今後の{bcrypt}形式へ整合する必要がある。適用済みSQLを安易に変更せず、履歴を確認して変更方法を確定する。既存ユーザー一括移行は現時点で予定せず、DB再作成・履歴削除等も実施しない。
+
+## 2026-11-13 全20件成功（最新）
+
+- ユーザー提示ログで全20件成功、失敗・エラー・スキップ0、BUILD SUCCESS。終了2026-11-13T15:15:01+09:00、全体3.376秒。仕様書結果表・5.11へ反映。AI再実行なし。全20件未確認の旧記録は解消。
+- 次はPasswordEncoderと開発用V9のハッシュ形式の互換性を調べ、採用方式・配置・必要なテスト仕様を確定する。既存ハッシュやパスワードをログへ出さず、未確定の認証仕様を推測で実装しない。認証API・セッション・CSRFの接続は未完了。
+
+## 2026-11-13 UT-AUTH-LOOKUP-001・002成功（最新）
+
+- 2ケースを実装・レビュー済み。ユーザー提示ログで2件成功、失敗・エラー・スキップ0、BUILD SUCCESS。終了2026-11-13T15:13:44+09:00、全体2.712秒。仕様書結果表・5.10へ反映、AI再実行なし。
+- 次はmvn -f backend/pom.xml testで全20件を一括確認。現時点で全20件成功とは扱わない。完了後はPasswordEncoderと既存の開発用管理者ハッシュの互換性等、認証基盤接続に必要な設計確認へ進む。照合方式は推測で決定しない。
+
+## 2026-11-13 UT-AUTH-LOOKUP-001成功（最新）
+
+- LoginUserDetailsServiceTestの正常系をレビュー済み。ユーザー提示ログで1件成功、失敗・エラー・スキップ0、BUILD SUCCESS。終了2026-11-13T14:10:42+09:00、全体4.544秒。単体テスト仕様書の結果表・5.9へ記録。AI再実行なし。
+- 次は002の空結果ケースを追加。missing@example.comに対しOptional.emptyを設定し、UsernameNotFoundExceptionとメッセージ、指定emailの検索1回を確認する。単独2件成功後に全体20件を確認。現在002・全体20件は未実施。
+
 ## 2026-11-13 終了時点（以下の過去記録より優先）
 
 - securityのconfig/principal/serviceへの整理とLoginUserDetailsTestの対応配置を確認。移動後の全18件成功はユーザー提示ログ（00:12:06 +09:00）で確認し、単体テスト仕様書5.8へ記録済み。
