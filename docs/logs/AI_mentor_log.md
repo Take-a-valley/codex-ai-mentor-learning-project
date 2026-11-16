@@ -1,5 +1,43 @@
 # AI Mentor Log
 
+## 2026-11-17 終了報告（11-16〜17の認証Manager実装・テスト）
+
+- DaoAuthenticationProvider/UserDetailsService/Encoder、AuthenticationManager/ProviderManagerの関係を理解確認し、使用バージョンと公式APIを照合してSecurityConfigのManager Bean実装を案内。実装とコンパイル成功を確認した。
+- Managerテストを段階的にレビューし、未認証トークンと2引数コンストラクタ、認証結果の受け取り、非null/認証済み/principalの型・本人情報、権限、credentials、検索回数を解説。コメントの整合も確認した。
+- 権限1件というAIの期待値誤りによる失敗を個別Surefireレポートで診断。Security 7がFACTOR_PASSWORDを加えるため、USERとの2件を順序非依存に検証する仕様へ訂正した。ログの集計・原因・失敗行の見方も説明。仕様書には失敗履歴を保持した。
+- 002は異なる入力平文でBadCredentialsException、003は検索モックのUsernameNotFoundExceptionをManager経由でBadCredentialsExceptionとして確認。成功/不一致/不在の3件と検索1回をレビュー済み。
+- ユーザー提示コマンドとログで単独3件成功（2026-11-17T01:05:25+09:00、全体3.206秒）、全体26件成功（01:05:37、全体3.987秒）を確認。失敗・エラー・スキップ0、BUILD SUCCESS。仕様書5.19と結果表へ反映済み。AI再実行なし。
+- 次回はJSONログインの受付・セッション固定攻撃対策・SecurityContext保存・principal資格情報消去・CSRF・エラー応答を既存設計と照合して具体化する。HTTP/実DB/セッション認証成功とは区別する。
+- feature/authentication、HEAD 3e5535b。Manager設定・新規テスト・関連文書に未コミット変更あり。終了時のGitコマンドを提示し、AIはソース編集・Git変更操作・再テストを行っていない。
+
+## 2026-11-17 Manager3件・全体26件成功
+
+- 003の検索モック例外・Manager期待例外・email指定・コメント整合をレビュー後、ユーザー提示コマンドで単独3件成功を確認。終了2026-11-17T01:05:25+09:00、テスト1.260秒、全体3.206秒。
+- 全体コマンドで26件成功、終了01:05:37 +09:00、全体3.987秒。いずれも失敗・エラー・スキップ0、BUILD SUCCESS。仕様書全結果表・5.19と進捗へ自動反映。
+- 次はJSON受付・セッション保存・資格情報消去等を既存契約と照合して具体化。AI再実行・ソース編集・Git変更操作なし。
+
+## 2026-11-17 Manager不一致ケース成功
+
+- 002の正しい保存ハッシュ・異なる入力平文、BadCredentialsExceptionのassertThrows、検索1回とコメントの一致をレビュー。ユーザー提示ログで001/002の2件成功を確認。
+- 終了2026-11-17T00:47:49+09:00、Failures/Errors/Skipped 0、BUILD SUCCESS、テスト1.131秒・全体3.064秒。仕様書結果表・5.18と進捗を自動更新。次は003のユーザー不在。AI再実行・ソース編集・Git変更操作なし。
+
+## 2026-11-17 Manager正常系の再実行成功
+
+- 権限集合の順序非依存検証・件数2、非nullの確認順とコメントをレビュー後、ユーザー提示ログで1件成功、Failures/Errors/Skipped 0、BUILD SUCCESSを確認。終了2026-11-17T00:31:42+09:00、テスト1.018秒、全体3.019秒。
+- 仕様書結果表・5.17と進捗へ自動反映。以前の失敗履歴を維持。ユーザーから今後のログ提示範囲の質問があり、コマンド・クラス別結果・集計・BUILD結果・終了日時、失敗時は原因と行番号を含める方針を案内。秘密情報は除外する。AI再実行・ソース編集・Git変更操作なし。
+
+## 2026-11-17 Manager正常系の失敗診断
+
+- Surefireの総括エラーを受領し個別txtレポートとソースを確認。権限件数expected 1 / actual 2で失敗（1件実行・失敗1、Errors/Skipped 0、0.960秒）。後続のcredentialsとverifyには未到達。
+- 公式資料からSecurity 7のDaoAuthenticationProviderによるFACTOR_PASSWORD付与を確認。AIが案内した認証結果1件という仕様が誤っていたことを説明し、関連設計・仕様・進捗を訂正。ソースの認証機能不具合と断定せず、順序に依存しない権限文字列集合の比較へ修正を案内する。
+- 実行日時等は未提示。AI再実行・ソース編集・Git変更操作なし。
+
+## 2026-11-16 AuthenticationManager設定・テスト仕様
+
+- Spring Boot依存管理とローカルAPIでSecurity 7.1.0を確認し、公式のManager Bean公開例を参照。ユーザー実装のProvider/Manager組み立てをレビューし、全行解説した。続くBUILD SUCCESSをコンパイル報告として記録（時刻等未提示）。
+- テスト移行前にセキュリティ設計10.3とテスト観点・仕様4.12へ成功/不一致/不在の3ケースを追加。不在と不一致は既定のBadCredentialsExceptionで統一し、検索Service単体のUsernameNotFoundExceptionと区別。
+- テストは未作成・未実施。Spring Bean注入・HTTP/セッションの成功ではない。AIによるソース編集・テスト再実行・Git変更操作なし。
+
 ## 2026-11-14 終了報告（11-13の作業を総括）
 
 - 認証用検索テスト001/002をレビュー・解説し、正常変換、不在時UsernameNotFoundException、検索回数を確認。ユーザー提示の全体20件成功を記録した。

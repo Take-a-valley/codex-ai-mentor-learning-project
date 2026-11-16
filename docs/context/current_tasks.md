@@ -1,5 +1,40 @@
 # Current Tasks
 
+## 2026-11-17 終了時点（以下の過去記録より優先）
+
+- SecurityConfigにAuthenticationManager Beanを追加し、検索Service/Encoderを受け取るDaoAuthenticationProviderとProviderManagerを組み立てる構成をレビュー済み。compile成功はユーザー報告。Spring Securityの依存管理は7.1.0と確認した。
+- AuthenticationManagerConfigTestの001〜003を作成・レビュー済み。単独3件成功は2026-11-17T01:05:25+09:00、全体26件成功は01:05:37+09:00、失敗・エラー・スキップ0、BUILD SUCCESS、全体3.987秒。仕様書5.19と全ケース結果表へ記録済み。AI再実行なし。
+- 001は当初の権限1件というAIの期待値が誤りで失敗。Security 7のFACTOR_PASSWORD付与を確認し、USERとの2件を順序非依存で確認する仕様へ訂正。失敗履歴は5.16へ保持。検索Serviceのロール1件と認証後の集合を区別する。
+- 次回はJSONログイン・セッション保存の設計照合から再開。API/Controller/Service/Securityの契約を確認し、受付処理の責務、SecurityContextRepository、セッション固定攻撃対策、principal内ハッシュを含む資格情報消去、CSRF、認証失敗の共通応答を具体化する。必要事項を固めたら実装へ移る。
+- ログインAPI・セッション維持・実DB資格情報照合・Spring Bean接続等は未検証。単体26件の成功で認証機能完成とは扱わない。
+- 終了確認時はfeature/authentication、HEAD 3e5535b。SecurityConfig・関連設計/ログに変更、AuthenticationManagerConfigTestは新規未追跡。Gitコマンドを提示するが、AIはGit変更操作・ソース編集・テスト再実行を行わない。
+
+## 2026-11-17 Manager3件・全26件成功（最新）
+
+- ユーザー提示コマンド/ログでManager単独3件成功（01:05:25 +09:00、全体3.206秒）、全体26件成功（01:05:37 +09:00、全体3.987秒）を確認。失敗・エラー・スキップ0、BUILD SUCCESS。仕様書結果表と5.19へ反映。AI再実行なし。003未作成・全26件未確認は解消。
+- 次はJSONログインと認証状態保存の接続設計。既存AuthController/AuthServiceの契約を維持し、principal内ハッシュを含む資格情報消去、セッション固定攻撃対策、SecurityContextRepository、CSRFを確認後に実装する。今回の単体成功でHTTP/セッション認証完成とはしない。
+
+## 2026-11-17 Manager正常・不一致2件成功（最新）
+
+- 001・002レビュー済み。ユーザー提示ログで2件成功、失敗・エラー・スキップ0、BUILD SUCCESS。終了2026-11-17T00:47:49+09:00、全体3.064秒。仕様書結果表・5.18へ記録、AI再実行なし。
+- 次は003のユーザー不在。検索モックがmissing@example.comでUsernameNotFoundExceptionを投げ、Manager経由ではBadCredentialsExceptionとなることと検索1回を確認。単独3件、その後全体26件を実行予定。003・全体成功は未確認。
+
+## 2026-11-17 UT-AUTH-MANAGER-001成功（最新）
+
+- USER・FACTOR_PASSWORDの両方と元集合2件を確認し、非null検証を参照前へ移動した実装をレビュー済み。ユーザー提示ログで1件成功、失敗・エラー・スキップ0、BUILD SUCCESS。終了2026-11-17T00:31:42+09:00、全体3.019秒。仕様書結果表・5.17へ反映。前回の失敗は解消し履歴は保持。
+- 次は002のパスワード不一致を追加しBadCredentialsExceptionを確認、続いて003のユーザー不在を同例外として確認する。全3件・全体26件はまだ未確認。AI再実行なし。
+
+## 2026-11-17 UT-AUTH-MANAGER-001失敗・期待値訂正（最新）
+
+- ユーザー提示失敗ログと個別Surefireレポートを確認。1件実行・失敗1・エラー/スキップ0。原因は74行目の権限サイズexpected 1 / actual 2。AIの仕様誤りで、Security 7のFACTOR_PASSWORD追加を考慮していなかった。仕様4.12とSecurity設計10.3を訂正。
+- 次は認証結果の権限文字列を順序非依存でUSER・FACTOR_PASSWORDの集合と比較するようユーザーが修正し、再レビュー・単独実行する。LoginUserDetails自体の権限1件テストは変更不要。成功、credentials消去・検索回数の今回の確認は未完了。AI再実行・ソース変更なし。
+
+## 2026-11-16 AuthenticationManagerコンパイル成功・テスト準備（最新）
+
+- SecurityConfig.authenticationManagerの既存検索Service/Encoder注入・DaoAuthenticationProvider生成・ProviderManager返却をレビュー済み。compile案内に対しBUILD SUCCESSのユーザー報告あり。実行日時・所要時間・コマンド全文は未提示。AI再実行なし。
+- 関連仕様を自動整備。単体テスト仕様書4.12へUT-AUTH-MANAGER-001〜003を追加、全て未作成・未実施。次はsecurity/config/AuthenticationManagerConfigTest.javaで001の準備。UserDetailsServiceのみモック、設定・Manager・Encoder・LoginUserDetailsは実物とする。
+- 認証成功、不一致、不在の3件完了後に全体26件を確認予定。Manager経由の不在は既定でBadCredentialsException。HTTP/JSON・セッション・CSRF・principal内資格情報の消去は後続接続時の確認対象。
+
 ## 2026-11-14 終了時点（以下の過去記録より優先）
 
 - LoginUserDetailsServiceTestの成功・不在2件とPasswordEncoderConfigTestの生成形式・一致・不一致3件を実装・レビュー・ユーザー実行済み。最新全体ログは2026-11-13T18:01:32+09:00、23件成功、失敗・エラー・スキップ0、BUILD SUCCESS、全体3.632秒。単体テスト仕様書5.15と結果表へ記録済み。AI再実行なし。
